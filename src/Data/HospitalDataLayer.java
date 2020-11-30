@@ -5,7 +5,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import static Data.DatabaseHelper.openDatabaseConnection;
+import static Data.DatabaseHelpers.openDatabaseConnection;
 
 public class HospitalDataLayer implements HospitalDataLayerInterface
 {

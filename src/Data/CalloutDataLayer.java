@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
 
-import static Data.DatabaseHelper.openDatabaseConnection;
+import static Data.DatabaseHelpers.openDatabaseConnection;
 
 public class CalloutDataLayer implements CalloutDataLayerInterface
 {
@@ -25,7 +25,7 @@ public class CalloutDataLayer implements CalloutDataLayerInterface
             Statement statement = dbConnection.createStatement();
 
             String insert = "INSERT INTO callouts (PatientID,RespondingAmbulanceID, Event, Timestamp,CallLength,Address,ActionTaken) " +
-                    "VALUES ('" + callout.getPatientId() + "', '" + callout.getRespondingAmbulanceId() + "', '" + callout.getEvent() + "', '" + callout.getTime() + "', '" + callout.getCallLength() + "', '" + callout.getAddress() + "', '" + callout.getActionTaken() + "')";
+                    "VALUES ('" + callout.getPatientId() + "', '" + callout.getRespondingAmbulanceId() + "', '" + callout.getEvent() + "', '" + callout.getTimestamp() + "', '" + callout.getCallLength() + "', '" + callout.getAddress() + "', '" + callout.getActionTaken() + "')";
 
             statement.executeUpdate(insert);
             statement.close();

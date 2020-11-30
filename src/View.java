@@ -4,7 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-public class PatientLayers
+public class View
 {
 	// As other methods will be accessing these, make them globally accessible
 	static BufferedReader input = new BufferedReader(new InputStreamReader(System.in));

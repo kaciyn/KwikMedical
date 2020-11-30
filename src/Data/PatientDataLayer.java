@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.sql.*;
 import java.util.List;
 
-import static Data.DatabaseHelper.openDatabaseConnection;
+import static Data.DatabaseHelpers.openDatabaseConnection;
 
 public class PatientDataLayer implements PatientDataLayerInterface
 {

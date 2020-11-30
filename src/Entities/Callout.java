@@ -4,23 +4,40 @@ import java.sql.Timestamp;
 
 public class Callout
 {
-    private int Id;
-    private int PatientId;
-    private int RespondingAmbulanceId;
+    private Integer Id;
+    private Integer PatientId;
+    private Integer RespondingAmbulanceId;
     private String Event;
-    private Timestamp Time;
+    private Timestamp Timestamp;
     private int CallLength;
     private String Address;
     private String ActionTaken;
 
 
-    public Callout(int id, int patientId, int respondingAmbulanceId, String event, Timestamp time, int callLength, String address, String actionTaken)
+    //for initial callout request
+    public Callout(int patientId, String event, Timestamp timestamp, int callLength, String address)
+    {
+        this.PatientId = patientId;
+        this.Event = event;
+        this.Timestamp = timestamp;
+        this.CallLength = callLength;
+        this.Address = address;
+
+        //unknown until added to db/received info from ambulance
+        this.Id = null;
+        this.RespondingAmbulanceId = null;
+        this.ActionTaken = null;
+
+    }
+
+
+    public Callout(int id, int patientId, int respondingAmbulanceId, String event, Timestamp timestamp, int callLength, String address, String actionTaken)
     {
         this.Id = id;
         this.PatientId = patientId;
         this.RespondingAmbulanceId = respondingAmbulanceId;
         this.Event = event;
-        this.Time = time;
+        this.Timestamp = timestamp;
         this.CallLength = callLength;
         this.Address = address;
         this.ActionTaken = actionTaken;
@@ -32,10 +49,6 @@ public class Callout
         return Id;
     }
 
-    public void setId(int id)
-    {
-        Id = id;
-    }
 
     public int getPatientId()
     {
@@ -67,14 +80,14 @@ public class Callout
         Event = event;
     }
 
-    public Timestamp getTime()
+    public Timestamp getTimestamp()
     {
-        return Time;
+        return Timestamp;
     }
 
-    public void setTime(Timestamp time)
+    public void setTimestamp(Timestamp timestamp)
     {
-        Time = time;
+        Timestamp = timestamp;
     }
 
     public int getCallLength()

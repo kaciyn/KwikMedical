@@ -4,7 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-public class DatabaseHelper
+public class DatabaseHelpers
 {
     public static Connection openDatabaseConnection(String database)
     {
