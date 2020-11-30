@@ -1,4 +1,5 @@
 import Data.PatientDataLayerInterface;
+import Entities.Patient;
 
 public class PatientApplicationLayer implements PatientApplicationLayerInterface
 {
@@ -15,22 +16,22 @@ public class PatientApplicationLayer implements PatientApplicationLayerInterface
         this.dataLayer = dataLayer;
     }
 
-    public String addPatient(String registrationNumber, String name, String programme)
-    {
-        // First create a Patient record object
-        Patient Patient = new Patient(registrationNumber, name, programme);
-        // Try and add the record to the data layer
-        boolean success = dataLayer.addPatient(Patient);
-        // Either the record was added or not.  Return an appropriate message
-        if (success)
-        {
-            return "Patient " + registrationNumber + " added";
-        }
-        else
-        {
-            return "Failed to add Patient: " + registrationNumber;
-        }
-    }
+//    public String addPatient(String registrationNumber, String name, String programme)
+//    {
+//        // First create a Patient record object
+//        Patient Patient = new Patient(registrationNumber, name, programme);
+//        // Try and add the record to the data layer
+//        boolean success = dataLayer.addPatient(Patient);
+//        // Either the record was added or not.  Return an appropriate message
+//        if (success)
+//        {
+//            return "Patient " + registrationNumber + " added";
+//        }
+//        else
+//        {
+//            return "Failed to add Patient: " + registrationNumber;
+//        }
+//    }
 
     public String getPatient(String registrationNumber)
     {
@@ -40,7 +41,7 @@ public class PatientApplicationLayer implements PatientApplicationLayerInterface
         if (Patient != null)
         {
             // Return textual representation of the Patient record
-            return Patient.getregistrationNumber() + "\n" + Patient.getName() + "\n" + Patient.getAddress();
+            return Patient.getRegistrationNumber() + "\n" + Patient.getName() + "\n" + Patient.getAddress();
         }
         else
         {
@@ -49,36 +50,36 @@ public class PatientApplicationLayer implements PatientApplicationLayerInterface
         }
     }
 
-    public String removePatient(String registrationNumber)
-    {
-        // Try and remove the Patient from the data layer
-        boolean success = dataLayer.removePatient(registrationNumber);
-        // Either we were successful or not.  Return appropriate message
-        if (success)
-        {
-            return "Patient " + registrationNumber + " removed";
-        }
-        else
-        {
-            return "Failed to remove Patient " + registrationNumber;
-        }
-    }
+//    public String removePatient(String registrationNumber)
+//    {
+//        // Try and remove the Patient from the data layer
+//        boolean success = dataLayer.removePatient(registrationNumber);
+//        // Either we were successful or not.  Return appropriate message
+//        if (success)
+//        {
+//            return "Patient " + registrationNumber + " removed";
+//        }
+//        else
+//        {
+//            return "Failed to remove Patient " + registrationNumber;
+//        }
+//    }
 
-    public String updatePatient(String registrationNumber, String name, String programme)
-    {
-        // Create a new Patient record object
-        Patient Patient = new Patient(registrationNumber, name, programme);
-        // Try and update the Patient record with the data layer
-        boolean success = dataLayer.updatePatient(registrationNumber, Patient);
-        // Either we were successful or not.  Return appropriate message.
-        if (success)
-        {
-            return "Patient " + registrationNumber + " successfully updated";
-        }
-        else
-        {
-            return "Patient " + registrationNumber + " not updated";
-        }
-    }
+//    public String updatePatient(String registrationNumber, String name, String programme)
+//    {
+//        // Create a new Patient record object
+//        Patient Patient = new Patient(registrationNumber, name, programme);
+//        // Try and update the Patient record with the data layer
+//        boolean success = dataLayer.updatePatient(registrationNumber, Patient);
+//        // Either we were successful or not.  Return appropriate message.
+//        if (success)
+//        {
+//            return "Patient " + registrationNumber + " successfully updated";
+//        }
+//        else
+//        {
+//            return "Patient " + registrationNumber + " not updated";
+//        }
+//    }
 
 }

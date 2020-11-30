@@ -2,90 +2,169 @@ package Data;
 
 import Entities.Callout;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.sql.Timestamp;
 
-public class CalloutDataLayer
+import static Data.DatabaseHelper.openDatabaseConnection;
+
+public class CalloutDataLayer implements CalloutDataLayerInterface
 {
-    // The underlying data layer this application layer sits upon
-    private CalloutDataLayerInterface dataLayer;
     /**
      * Default constructor
-     *
-     * @param dataLayer The data layer that this layer sits upon
      */
-    public CalloutApplicationLayer(CalloutDataLayerInterface dataLayer)
+    public CalloutDataLayer()
     {
-        this.dataLayer = dataLayer;
     }
 
-
-    public String addCallout(int patientId, int respondingHospitalId, String event, Timestamp time, String address, String actionTaken)
+    public void addCallout(Callout callout)
     {
-        // First create a Callout record object
-        Callout Callout = new Callout(patientId,respondingHospitalId,event,time,address,actionTaken);
-        // Try and add the record to the data layer
-        boolean success = dataLayer.addCallout(Callout);
-        // Either the record was added or not.  Return an appropriate message
-        if (success)
-        {
-            return "Callout " + registrationNumber + " added";
-        }
-        else
-        {
-            return "Failed to add Callout: " + registrationNumber;
-        }
-    }
+        try {
+            var dbConnection = openDatabaseConnection("patients");
+            Statement statement = dbConnection.createStatement();
 
-    public String getCallout(String registrationNumber)
-    {
-        // Try and get the Callout record object from the data layer
-        Callout Callout = dataLayer.getCallout(registrationNumber);
-        // If the Callout record does not exist, the data layer will return null
-        if (Callout != null)
-        {
-            // Return textual representation of the Callout record
-            return Callout.getregistrationNumber() + "\n" + Callout.getName() + "\n" + Callout.getAddress();
+            String insert = "INSERT INTO callouts (PatientID,RespondingAmbulanceID, Event, Timestamp,CallLength,Address,ActionTaken) " +
+                    "VALUES ('" + callout.getPatientId() + "', '" + callout.getRespondingAmbulanceId() + "', '" + callout.getEvent() + "', '" + callout.getTime() + "', '" + callout.getCallLength() + "', '" + callout.getAddress() + "', '" + callout.getActionTaken() + "')";
+
+            statement.executeUpdate(insert);
+            statement.close();
+            dbConnection.close();
+            System.out.println("Update successful");
+
         }
-        else
-        {
-            // Return fail message
-            return "Callout " + registrationNumber + " does not exist";
+        catch (SQLException sqlException) {
+            System.err.println("Error in SQL Update");
+            System.err.println(sqlException.getMessage());
+            System.exit(-1);
         }
     }
 
-
-
-    public String updateCallout(String registrationNumber, String name, String programme)
+    public Callout getCalloutByPatientAndTime(String patientId, Timestamp time)
     {
-        // Create a new Callout record object
-        Callout Callout = new Callout(registrationNumber, name, programme);
-        // Try and update the Callout record with the data layer
-        boolean success = dataLayer.updateCallout(registrationNumber, Callout);
-        // Either we were successful or not.  Return appropriate message.
-        if (success)
-        {
-            return "Callout " + registrationNumber + " successfully updated";
+        Callout Callout = null;
+        try {
+            var dbConnection = openDatabaseConnection("callouts");
+            Statement statement = dbConnection.createStatement();
+            // Now create a simple query to get all records from the database
+            String query = "SELECT * FROM callouts WHERE PatientID=" + patientId + " AND Timestamp =" + time;
+            ResultSet results = statement.executeQuery(query);
+
+            if (results.next()) {
+                // We will update the first hit (there should be only one)
+                results.first();
+
+                Callout = new Callout(results.getInt("ID"), results.getInt("PatientID"), results.getInt("RespondingAmbulanceID"), results.getString("Event"), results.getTimestamp("Timestamp"), results.getInt("CallLength"), results.getString("Address"), results.getString("ActionTaken"));
+            }
+            else {
+                // No matching records. Display message
+                System.out.println("No callout with matching patient " + patientId + " at " + time + "found.");
+            }
+            statement.close();
+            dbConnection.close();
         }
-        else
-        {
-            return "Callout " + registrationNumber + " not updated";
+        catch (SQLException sqlException) {
+            System.err.println("Error in SQL Update");
+            System.err.println(sqlException.getMessage());
+            System.exit(-1);
         }
+
+        return Callout;
     }
 
 
-    public String removeCallout(String registrationNumber)
+    public void updateCallout(Callout callout)
     {
-        // Try and remove the Callout from the data layer
-        boolean success = dataLayer.removeCallout(registrationNumber);
-        // Either we were successful or not.  Return appropriate message
-        if (success)
-        {
-            return "Callout " + registrationNumber + " removed";
+        try {
+            var dbConnection = openDatabaseConnection("callouts");
+            Statement statement = dbConnection.createStatement();
+            // Now create a simple query to get all records from the database
+            String query = "SELECT * FROM callouts WHERE ID=" + callout.getId();
+
+            ResultSet results = statement.executeQuery(query);
+
+            if (results.next()) {
+//these should be the only ones updated from the ambulance
+                results.updateString("Event", callout.getEvent());
+                results.updateString("ActionTaken", callout.getActionTaken());
+                results.updateRow();
+            }
+            else {
+                // No matching records. Display message
+                System.out.println("No callout with matching id " + callout.getId());
+            }
+            statement.close();
+            dbConnection.close();
         }
-        else
-        {
-            return "Failed to remove Callout " + registrationNumber;
+        catch (SQLException sqlException) {
+            System.err.println("Error in SQL Update");
+            System.err.println(sqlException.getMessage());
+            System.exit(-1);
         }
     }
+
+    public void removeCallout(String id)
+    {
+        try {
+            var dbConnection = openDatabaseConnection("callouts");
+            Statement statement = dbConnection.createStatement();
+            // Now create a simple query to get all records from the database
+            String query = "SELECT * FROM callouts WHERE ID=" + id;
+
+            ResultSet results = statement.executeQuery(query);
+
+            if (results.next()) {
+//these should be the only ones updated from the ambulance
+                results.deleteRow();
+                System.out.println("Callout successfully deleted with id " + id);
+
+            }
+            else {
+                // No matching records. Display message
+                System.out.println("No callout with matching id " + id);
+            }
+            statement.close();
+            dbConnection.close();
+        }
+        catch (SQLException sqlException) {
+            System.err.println("Error in SQL Update");
+            System.err.println(sqlException.getMessage());
+            System.exit(-1);
+        }
+    }
+
+    public Callout getCalloutById(int id)
+    {
+        Callout callout = null;
+
+        try {
+            var dbConnection = openDatabaseConnection("callouts");
+            Statement statement = dbConnection.createStatement();
+            // Now create a simple query to get all records from the database
+            String query = "SELECT * FROM callouts WHERE ID=" + id;
+            ResultSet results = statement.executeQuery(query);
+
+            if (results.next()) {
+                // We will update the first hit (there should be only one)
+                results.first();
+
+                callout = new Callout(results.getInt("ID"), results.getInt("PatientID"), results.getInt("RespondingAmbulanceID"), results.getString("Event"), results.getTimestamp("Timestamp"), results.getInt("CallLength"), results.getString("Address"), results.getString("ActionTaken"));
+            }
+            else {
+                // No matching records. Display message
+                System.out.println("No callout with matching id " + id);
+            }
+            statement.close();
+            dbConnection.close();
+        }
+        catch (SQLException sqlException) {
+            System.err.println("Error in SQL Update");
+            System.err.println(sqlException.getMessage());
+            System.exit(-1);
+        }
+        return callout;
+    }
+
+
 }
 

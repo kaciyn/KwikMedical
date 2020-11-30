@@ -2,23 +2,39 @@ package Entities;
 
 import java.sql.Timestamp;
 
-public class  Callout
+public class Callout
 {
+    private int Id;
     private int PatientId;
-    private int RespondingHospitalId;
+    private int RespondingAmbulanceId;
     private String Event;
     private Timestamp Time;
+    private int CallLength;
     private String Address;
     private String ActionTaken;
 
-    public Callout(int patientId, int respondingHospitalId, String event, Timestamp time, String address, String actionTaken)
+
+    public Callout(int id, int patientId, int respondingAmbulanceId, String event, Timestamp time, int callLength, String address, String actionTaken)
     {
+        this.Id = id;
         this.PatientId = patientId;
-        this.RespondingHospitalId = respondingHospitalId;
+        this.RespondingAmbulanceId = respondingAmbulanceId;
         this.Event = event;
         this.Time = time;
+        this.CallLength = callLength;
         this.Address = address;
         this.ActionTaken = actionTaken;
+
+    }
+
+    public int getId()
+    {
+        return Id;
+    }
+
+    public void setId(int id)
+    {
+        Id = id;
     }
 
     public int getPatientId()
@@ -31,14 +47,14 @@ public class  Callout
         PatientId = patientId;
     }
 
-    public int getRespondingHospitalId()
+    public int getRespondingAmbulanceId()
     {
-        return RespondingHospitalId;
+        return RespondingAmbulanceId;
     }
 
-    public void setRespondingHospitalId(int respondingHospitalId)
+    public void setRespondingAmbulanceId(int respondingAmbulanceId)
     {
-        RespondingHospitalId = respondingHospitalId;
+        RespondingAmbulanceId = respondingAmbulanceId;
     }
 
     public String getEvent()
@@ -59,6 +75,16 @@ public class  Callout
     public void setTime(Timestamp time)
     {
         Time = time;
+    }
+
+    public int getCallLength()
+    {
+        return CallLength;
+    }
+
+    public void setCallLength(int callLength)
+    {
+        CallLength = callLength;
     }
 
     public String getAddress()

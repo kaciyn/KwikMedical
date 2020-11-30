@@ -8,7 +8,7 @@ public interface PatientApplicationLayerInterface
      * @param programme The Patient's programme
      * @return Message indicating outcome of adding Patient
      */
-    public String addPatient(String registrationNumber, String name, String programme);
+//    public String addPatient(String registrationNumber, String name, String programme);
 
     /**
      * Updates an existing Patient record
@@ -18,7 +18,7 @@ public interface PatientApplicationLayerInterface
      * @param programme The Patient's updated programme
      * @return Message indicating outcome of updating the Patient
      */
-    public String updatePatient(String registrationNumber, String name, String programme);
+//    public String updatePatient(String registrationNumber, String name, String programme);
 
     /**
      * Gets a Patient record
@@ -34,5 +34,5 @@ public interface PatientApplicationLayerInterface
      * @param registrationNumber The registrationNumber number of the Patient to remove
      * @return Message indicating the oucome of removing the Patient
      */
-    public String removePatient(String registrationNumber);
+//    public String removePatient(String registrationNumber);
 }

@@ -18,7 +18,7 @@ public class PatientDataLayer implements PatientDataLayerInterface
             var dbConnection = openDatabaseConnection("patients");
             Statement statement = dbConnection.createStatement();
             // Now create a simple query to get all records from the database
-            String query = "SELECT * FROM StudentRecord WHERE RegistrationNumber=" + registrationNumber;
+            String query = "SELECT * FROM patients WHERE RegistrationNumber=" + registrationNumber;
             ResultSet results = statement.executeQuery(query);
 
             if (results.next()) {
@@ -26,11 +26,15 @@ public class PatientDataLayer implements PatientDataLayerInterface
                 results.first();
 
                 patient = new Patient(results.getInt("RegistrationNumber"), results.getString("Name"), results.getString("Address"), results.getString("MedicalRecord"));
+
             }
             else {
                 // No matching records. Display message
                 System.out.println("No patient with registration number " + registrationNumber + " found.");
             }
+
+            statement.close();
+            dbConnection.close();
         }
         catch (SQLException sqlException) {
             System.err.println("Error in SQL Update");
@@ -49,7 +53,7 @@ public class PatientDataLayer implements PatientDataLayerInterface
             var dbConnection = openDatabaseConnection("patients");
             Statement statement = dbConnection.createStatement();
             // Now create a simple query to get all records from the database
-            String query = "SELECT * FROM StudentRecord WHERE Name=" + name;
+            String query = "SELECT * FROM patients WHERE Name=" + name;
             ResultSet results = statement.executeQuery(query);
 
             if (results.next()) {
@@ -64,6 +68,8 @@ public class PatientDataLayer implements PatientDataLayerInterface
                 // No matching records. Display message
                 System.out.println("No patients named " + name + " found.");
             }
+            statement.close();
+            dbConnection.close();
         }
         catch (SQLException sqlException) {
             System.err.println("Error in SQL Update");
