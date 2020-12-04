@@ -15,7 +15,7 @@ public class PatientDataLayer implements PatientDataLayerInterface
     {
         Patient patient = null;
         try {
-            var dbConnection = openDatabaseConnection("patients");
+            Connection dbConnection = openDatabaseConnection("patients");
             Statement statement = dbConnection.createStatement();
             // Now create a simple query to get all records from the database
             String query = "SELECT * FROM patients WHERE RegistrationNumber=" + registrationNumber;
@@ -48,9 +48,9 @@ public class PatientDataLayer implements PatientDataLayerInterface
 
     public List<Patient> getPatientsByName(String name)
     {
-        var patients = new ArrayList<Patient>();
+        ArrayList<Patient> patients = new ArrayList<Patient>();
         try {
-            var dbConnection = openDatabaseConnection("patients");
+            Connection dbConnection = openDatabaseConnection("patients");
             Statement statement = dbConnection.createStatement();
             // Now create a simple query to get all records from the database
             String query = "SELECT * FROM patients WHERE Name=" + name;
@@ -60,7 +60,7 @@ public class PatientDataLayer implements PatientDataLayerInterface
                 // We will update the first hit (there should be only one)
                 results.first();
 
-                var patient = new Patient(results.getInt("RegistrationNumber"), results.getString("Name"), results.getString("Address"), results.getString("MedicalRecord"));
+                Patient patient = new Patient(results.getInt("RegistrationNumber"), results.getString("Name"), results.getString("Address"), results.getString("MedicalRecord"));
 
                 patients.add(patient);
             }

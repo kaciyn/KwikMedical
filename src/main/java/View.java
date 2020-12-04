@@ -89,9 +89,9 @@ public class View
 		System.out.print("Patient programme: ");
 		String programme = input.readLine();
 		// Get the result from trying to add the Patient record to the app layer
-		String result = appLayer.addPatient(registrationNumber, name, programme);
+//		String result = appLayer.addPatient(registrationNumber, name, programme);
 		// Display result
-		System.out.println("\n" + result);
+//		System.out.println("\n" + result);
 	}
 	
 	/**
@@ -126,9 +126,9 @@ public class View
 		System.out.print("New Patient programme: ");
 		String programme = input.readLine();
 		// Get result from trying to update the Patient record
-		String result = appLayer.updatePatient(registrationNumber, name, programme);
-		// Display result
-		System.out.println("\n" + result);
+//		String result = appLayer.updatePatient(registrationNumber, name, programme);
+//		// Display result
+//		System.out.println("\n" + result);
 	}
 	
 	/**
@@ -142,8 +142,8 @@ public class View
 		System.out.print("\nPatient registrationNumber: ");
 		String registrationNumber = input.readLine();
 		// Get result from trying to remove the Patient record
-		String result = appLayer.removePatient(registrationNumber);
-		// Display the result
-		System.out.println("\n" + result);
+//		String result = appLayer.removePatient(registrationNumber);
+//		// Display the result
+//		System.out.println("\n" + result);
 	}
 }

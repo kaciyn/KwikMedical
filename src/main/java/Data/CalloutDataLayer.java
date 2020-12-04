@@ -2,10 +2,7 @@ package Data;
 
 import Entities.Callout;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.sql.Timestamp;
+import java.sql.*;
 
 import static Data.DatabaseHelpers.openDatabaseConnection;
 
@@ -21,7 +18,7 @@ public class CalloutDataLayer implements CalloutDataLayerInterface
     public void addCallout(Callout callout)
     {
         try {
-            var dbConnection = openDatabaseConnection("patients");
+            Connection dbConnection = openDatabaseConnection("patients");
             Statement statement = dbConnection.createStatement();
 
             String insert = "INSERT INTO callouts (PatientID,RespondingAmbulanceID, Event, Timestamp,CallLength,Address,ActionTaken) " +
@@ -44,7 +41,7 @@ public class CalloutDataLayer implements CalloutDataLayerInterface
     {
         Callout Callout = null;
         try {
-            var dbConnection = openDatabaseConnection("callouts");
+            Connection dbConnection = openDatabaseConnection("callouts");
             Statement statement = dbConnection.createStatement();
             // Now create a simple query to get all records from the database
             String query = "SELECT * FROM callouts WHERE PatientID=" + patientId + " AND Timestamp =" + time;
@@ -76,7 +73,7 @@ public class CalloutDataLayer implements CalloutDataLayerInterface
     public void updateCallout(Callout callout)
     {
         try {
-            var dbConnection = openDatabaseConnection("callouts");
+            Connection dbConnection = openDatabaseConnection("callouts");
             Statement statement = dbConnection.createStatement();
             // Now create a simple query to get all records from the database
             String query = "SELECT * FROM callouts WHERE ID=" + callout.getId();
@@ -106,7 +103,7 @@ public class CalloutDataLayer implements CalloutDataLayerInterface
     public void removeCallout(String id)
     {
         try {
-            var dbConnection = openDatabaseConnection("callouts");
+            Connection dbConnection = openDatabaseConnection("callouts");
             Statement statement = dbConnection.createStatement();
             // Now create a simple query to get all records from the database
             String query = "SELECT * FROM callouts WHERE ID=" + id;
@@ -138,7 +135,7 @@ public class CalloutDataLayer implements CalloutDataLayerInterface
         Callout callout = null;
 
         try {
-            var dbConnection = openDatabaseConnection("callouts");
+            Connection dbConnection = openDatabaseConnection("callouts");
             Statement statement = dbConnection.createStatement();
             // Now create a simple query to get all records from the database
             String query = "SELECT * FROM callouts WHERE ID=" + id;

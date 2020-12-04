@@ -52,7 +52,37 @@ public class DispatcherApplicationLayer implements DispatcherApplicationLayerInt
 
     //currently just returns the first hospital with a free ambulance in table, full implementation with location/maps integration would calculate distance to patient
     public int getClosestAvailableHospital(String address){
-        return dataLayer.get();
+//        return dataLayer.get();
+return 1;
+    }
+
+    @Override
+    public CallInformation getCallInformation()
+    {
+        return null;
+    }
+
+    @Override
+    public void getClosestAvailableAmbulance()
+    {
+
+    }
+
+    @Override
+    public void adviseHelp()
+    {
+
+    }
+
+    @Override
+    public void sendCalloutRequest()
+    {
+
+    }
+
+    @Override
+    public void sendPatientRecord()
+    {
 
     }
 

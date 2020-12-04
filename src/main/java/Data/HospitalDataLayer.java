@@ -1,6 +1,7 @@
 package Data;
 
 
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -13,7 +14,7 @@ public class HospitalDataLayer implements HospitalDataLayerInterface
     public void updateAmbulanceAvailability(int id, boolean availability)
     {
         try {
-            var dbConnection = openDatabaseConnection("callouts");
+            Connection dbConnection = openDatabaseConnection("callouts");
             Statement statement = dbConnection.createStatement();
             // Now create a simple query to get all records from the database
             String query = "SELECT * FROM callouts WHERE ID=" + id;
