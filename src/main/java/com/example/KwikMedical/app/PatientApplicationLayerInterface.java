@@ -1,5 +1,7 @@
 package com.example.KwikMedical.app;
 
+import com.example.KwikMedical.Entities.Patient;
+
 public interface PatientApplicationLayerInterface
 {
     /**
@@ -28,7 +30,7 @@ public interface PatientApplicationLayerInterface
      * @param registrationNumber The registrationNumber number of the Patient to get
      * @return Message indicating the outcome of getting the Patient
      */
-    public int getPatient(int registrationNumber);
+    public Patient getPatient(int registrationNumber);
 
     /**
      * Removes a Patient record

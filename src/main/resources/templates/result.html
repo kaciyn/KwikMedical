@@ -6,7 +6,11 @@
 </head>
 <body>
 	<h1>Result</h1>
-    <p th:text="'id: ' + ${patientlookup.id}" />
+    <p th:text="'id: ' + ${patient.registrationNumber}" />
+    <p th:text="'id: ' + ${patient.name}" />
+    <p th:text="'id: ' + ${patient.address}" />
+    <p th:text="'id: ' + ${patient.medicalRecord}" />
+
     <a href="/patientlookup">Submit another message</a>
 </body>
 </html>

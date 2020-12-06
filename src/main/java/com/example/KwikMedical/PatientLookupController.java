@@ -1,5 +1,6 @@
 package com.example.KwikMedical;
 
+import com.example.KwikMedical.Entities.Patient;
 import com.example.KwikMedical.Entities.PatientID;
 import com.example.KwikMedical.app.DispatcherApplicationLayer;
 import com.example.KwikMedical.app.PatientApplicationLayer;
@@ -30,8 +31,8 @@ private PatientApplicationLayer patientApplicationLayer;
 
 	@PostMapping("/patientlookup")
 	public String patientLookupResults(@ModelAttribute PatientID patientId, Model model) {
-		patientApplicationLayer.getPatient(patientId.getId());
-		model.addAttribute("patientlookup", patientId);
+		Patient patient=patientApplicationLayer.getPatient(patientId.getId());
+		model.addAttribute("patient", patient);
 
 		return "result";
 	}

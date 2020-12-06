@@ -35,22 +35,13 @@ public class PatientApplicationLayer implements PatientApplicationLayerInterface
 //        }
 //    }
 
-    public int getPatient(int registrationNumber)
+    public Patient getPatient(int registrationNumber)
     {
         // Try and get the Patient record object from the data layer
-        Patient Patient = dataLayer.getPatientByRegistrationNumber(registrationNumber);
+        return dataLayer.getPatientByRegistrationNumber(registrationNumber);
         // If the Patient record does not exist, the data layer will return null
-        if (Patient != null)
-        {
-            // Return textual representation of the Patient record
-            return Integer.parseInt(Patient.getRegistrationNumber() + "\n" + Patient.getName() + "\n" + Patient.getAddress());
         }
-        else
-        {
-            // Return fail message
-            return Integer.parseInt("Patient " + registrationNumber + " does not exist");
-        }
-    }
+
 
 //    public String removePatient(String registrationNumber)
 //    {
