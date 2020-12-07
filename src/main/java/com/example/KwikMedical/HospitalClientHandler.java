@@ -8,14 +8,14 @@ import java.net.Socket;
 import static com.example.KwikMedical.HospitalApp.SendAmbulance;
 import static com.example.KwikMedical.HospitalApp.appLayer;
 
-public class CalloutClientHandler extends Thread
+public class HospitalClientHandler extends Thread
 {
     private final Socket socket;
     private final InputStream inputStream;
     private final DataOutputStream outputStream;
     private final int hospitalID;
 
-    public CalloutClientHandler(Socket socket, InputStream inputStream, DataOutputStream outputStream, int hospitalID)
+    public HospitalClientHandler(Socket socket, InputStream inputStream, DataOutputStream outputStream, int hospitalID)
     {
         this.socket = socket;
         this.inputStream = inputStream;

@@ -46,7 +46,7 @@ public class HospitalApp
 
             DataOutputStream outputStream = new DataOutputStream(socket.getOutputStream());
 
-            Thread clientHandler = new CalloutClientHandler(socket, inputStream, outputStream, hospitalID);
+            Thread clientHandler = new HospitalClientHandler(socket, inputStream, outputStream, hospitalID);
 
             clientHandler.start();
 

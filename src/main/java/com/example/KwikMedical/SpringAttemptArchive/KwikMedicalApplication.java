@@ -1,4 +1,4 @@
-package com.example.KwikMedical;
+package com.example.KwikMedical.SpringAttemptArchive;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
