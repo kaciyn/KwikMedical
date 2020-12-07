@@ -1,6 +1,8 @@
 package com.example.KwikMedical.Data;
 
+import com.example.KwikMedical.Entities.Ambulance;
 import com.example.KwikMedical.Entities.Callout;
+import com.example.KwikMedical.Entities.Hospital;
 import com.example.KwikMedical.Entities.Patient;
 
 import java.sql.Timestamp;
@@ -18,9 +20,12 @@ public interface DataLayerInterface
 
     public void updateCallout(Callout callout);
 
-    public void removeCallout(String id);
+    public void removeCallout(int id);
 
-    public void updateAmbulanceAvailability(int id,boolean availability);
+    public Hospital getHospital(int id);
 
+    public void updateAmbulanceAvailability(int id, boolean availability);
+
+    public Ambulance getAvailableAmbulance(int hospitalId);
 }
 

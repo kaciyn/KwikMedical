@@ -7,6 +7,7 @@ public class Callout
     private Integer Id;
     private Integer PatientId;
     private Integer RespondingAmbulanceId;
+    private String MedicalInformation;
     private String PatientCondition;
     private String Incident;
     private Timestamp Timestamp;
@@ -15,21 +16,16 @@ public class Callout
     private String ActionTaken;
 
 
-    //for initial callout request
-    public Callout(int patientId, String incident, Timestamp timestamp, int callLength, String address, String patientCondition)
+    //for initial callout creation
+    public Callout(int patientId, String incident, Timestamp timestamp, int callLength, String address, String medicalInformation,String patientCondition)
     {
         this.PatientId = patientId;
         this.Incident = incident;
         this.Timestamp = timestamp;
         this.CallLength = callLength;
+        this.MedicalInformation = medicalInformation;
         this.PatientCondition = patientCondition;
         this.Address = address;
-
-        //unknown until added to db/received info from ambulance
-//        this.Id = null;
-//        this.RespondingAmbulanceId = null;
-//        this.ActionTaken = null;
-
     }
 
 
@@ -129,5 +125,15 @@ public class Callout
     public void setPatientCondition(String patientCondition)
     {
         PatientCondition = patientCondition;
+    }
+
+    public String getMedicalInformation()
+    {
+        return MedicalInformation;
+    }
+
+    public void setMedicalInformation(String medicalInformation)
+    {
+        MedicalInformation = medicalInformation;
     }
 }

@@ -1,8 +1,6 @@
 package com.example.KwikMedical.Application;
 
-import com.example.KwikMedical.Entities.CallInformation;
-import com.example.KwikMedical.Entities.Callout;
-import com.example.KwikMedical.Entities.Patient;
+import com.example.KwikMedical.Entities.*;
 
 public interface ApplicationLayerInterface
 {
@@ -11,7 +9,7 @@ public interface ApplicationLayerInterface
 
     public CallInformation getCallInformation();
 
-    void addCallout(int patientId, String incident, CallInformation callInformation, String address, String patientCondition);
+    public void addCallout(Callout callout);
 
     public Callout getCallout(String patientId, CallInformation callInformation) throws Exception;
 
@@ -19,13 +17,15 @@ public interface ApplicationLayerInterface
 
     public void removeCallout(String calloutId);
 
-    public int getClosestAvailableHospital(String address);
+    public Hospital getClosestAvailableHospital(String address);
 //    public void getClosestAvailableAmbulance();//future GPS or coordinate-based integration
 
     public void sendCalloutRequest();
 
     public void sendPatientRecord();
 
-    public void updateCalloutFromAmbulance(Callout callout, String respondingAmbulanceId, String actionTaken);
+    public void updateCalloutFromAmbulance(Callout callout, int ambulanceID, String patientCondition, String incident, String actionTaken);
+
+    public Ambulance getAvailableAmbulance(int hospitalId);
 
 }

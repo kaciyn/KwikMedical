@@ -1,9 +1,7 @@
 package com.example.KwikMedical.Application;
 
 import com.example.KwikMedical.Data.DataLayerInterface;
-import com.example.KwikMedical.Entities.CallInformation;
-import com.example.KwikMedical.Entities.Callout;
-import com.example.KwikMedical.Entities.Patient;
+import com.example.KwikMedical.Entities.*;
 
 import java.sql.Timestamp;
 
@@ -35,12 +33,11 @@ public class ApplicationLayer implements ApplicationLayerInterface
         return new CallInformation(new Timestamp(System.currentTimeMillis()), 20000);
     }
 
-    @Override
-    public void addCallout(int patientId, String incident, CallInformation callInformation, String address, String patientCondition)
-    {
-        Callout Callout = new Callout(patientId, incident, callInformation.getTimestamp(), callInformation.getCallLength(), address, patientCondition);
 
-        dataLayer.addCallout(Callout);
+    @Override
+    public void addCallout(Callout callout)
+    {
+        dataLayer.addCallout(callout);
     }
 
     @Override
@@ -60,23 +57,31 @@ public class ApplicationLayer implements ApplicationLayerInterface
     @Override
     public void removeCallout(String calloutId)
     {
-        dataLayer.removeCallout(calloutId);
+        dataLayer.removeCallout(Integer.parseInt(calloutId));
     }
 
     @Override
-    public void updateCalloutFromAmbulance(Callout callout, String respondingAmbulanceId, String actionTaken)
+    public void updateCalloutFromAmbulance(Callout callout, int respondingAmbulanceID, String patientCondition, String incident, String actionTaken)
     {
-        callout.setRespondingAmbulanceId(Integer.parseInt(respondingAmbulanceId));
-        callout.setActionTaken(actionTaken);
+        callout.setRespondingAmbulanceId(respondingAmbulanceID);
+
+        //appends to initial info
+        callout.setPatientCondition(callout.getPatientCondition() + "\nAmbulance Update: " + patientCondition);
+        callout.setIncident(callout.getPatientCondition() + "\nAmbulance Update: " + incident);
 
         dataLayer.updateCallout(callout);
     }
 
-    //currently just returns the first hospital with a free ambulance in table, full implementation with location/maps integration would calculate distance to patient
-    public int getClosestAvailableHospital(String address)
+    @Override
+    public Ambulance getAvailableAmbulance(int hospitalId)
     {
-//        return dataLayer.get();
-        return 1;
+        return dataLayer.getAvailableAmbulance(hospitalId);
+    }
+
+    //currently just returns the first hospital in table, full implementation with location/maps integration would calculate distance to patient
+    public Hospital getClosestAvailableHospital(String address)
+    {
+        return dataLayer.getHospital(1);
     }
 
     @Override
@@ -98,13 +103,6 @@ public class ApplicationLayer implements ApplicationLayerInterface
     {
 
     }
-
-
-//    @Override
-//    public void getClosestAvailableAmbulance()
-//    {
-//
-//    }
 
 
 }

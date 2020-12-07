@@ -1,6 +1,8 @@
 package com.example.KwikMedical.Data;
 
+import com.example.KwikMedical.Entities.Ambulance;
 import com.example.KwikMedical.Entities.Callout;
+import com.example.KwikMedical.Entities.Hospital;
 import com.example.KwikMedical.Entities.Patient;
 
 import java.sql.*;
@@ -29,9 +31,6 @@ public class DataLayer implements DataLayerInterface
             ResultSet results = statement.executeQuery(query);
 
             if (results.next()) {
-                // We will update the first hit (there should be only one)
-//                results.first();
-
                 patient = new Patient(results.getInt("RegistrationNumber"), results.getString("Name"), results.getString("Address"), results.getString("MedicalRecord"));
 
             }
@@ -64,9 +63,6 @@ public class DataLayer implements DataLayerInterface
             ResultSet results = statement.executeQuery(query);
 
             if (results.next()) {
-                // We will update the first hit (there should be only one)
-                results.first();
-
                 Patient patient = new Patient(results.getInt("RegistrationNumber"), results.getString("Name"), results.getString("Address"), results.getString("MedicalRecord"));
 
                 patients.add(patient);
@@ -94,7 +90,7 @@ public class DataLayer implements DataLayerInterface
             Connection dbConnection = openDatabaseConnection();
             Statement statement = dbConnection.createStatement();
 
-            String insert = "INSERT INTO callouts (PatientID,RespondingAmbulanceID, Event, Timestamp,CallLength,Address,ActionTaken) " +
+            String insert = "INSERT INTO callouts (PatientID,RespondingAmbulanceID, Incident, Timestamp,CallLength,Address,ActionTaken) " +
                     "VALUES ('" + callout.getPatientId() + "', '" + callout.getRespondingAmbulanceId() + "', '" + callout.getIncident() + "', '" + callout.getTimestamp() + "', '" + callout.getCallLength() + "', '" + callout.getAddress() + "', '" + callout.getActionTaken() + "')";
 
             statement.executeUpdate(insert);
@@ -121,8 +117,6 @@ public class DataLayer implements DataLayerInterface
             ResultSet results = statement.executeQuery(query);
 
             if (results.next()) {
-                // We will update the first hit (there should be only one)
-                results.first();
 
                 Callout = new Callout(results.getInt("ID"), results.getInt("PatientID"), results.getInt("RespondingAmbulanceID"), results.getString("Event"), results.getTimestamp("Timestamp"), results.getInt("CallLength"), results.getString("Address"), results.getString("ActionTaken"));
             }
@@ -173,7 +167,7 @@ public class DataLayer implements DataLayerInterface
         }
     }
 
-    public void removeCallout(String id)
+    public void removeCallout(int id)
     {
         try {
             Connection dbConnection = openDatabaseConnection();
@@ -203,6 +197,39 @@ public class DataLayer implements DataLayerInterface
         }
     }
 
+    @Override
+    public Hospital getHospital(int id)
+    {
+        Hospital hospital = null;
+        try {
+            Connection dbConnection = openDatabaseConnection();
+            Statement statement = dbConnection.createStatement();
+            // Now create a simple query to get all records from the database
+            String query = "SELECT * FROM hospitals WHERE ID=" + id;
+            ResultSet results = statement.executeQuery(query);
+
+            if (results.next()) {
+                hospital = new Hospital(results.getInt("ID"), results.getString("Name"), results.getString("ServerAddress"));
+
+            }
+            else {
+                // No matching records. Display message
+                System.out.println("No hospital with ID " + id + " found.");
+            }
+
+            statement.close();
+            dbConnection.close();
+        }
+        catch (SQLException sqlException) {
+            System.err.println("Error in SQL Update");
+            System.err.println(sqlException.getMessage());
+            System.exit(-1);
+        }
+
+        return hospital;
+
+    }
+
     public Callout getCalloutById(int id)
     {
         Callout callout = null;
@@ -215,9 +242,6 @@ public class DataLayer implements DataLayerInterface
             ResultSet results = statement.executeQuery(query);
 
             if (results.next()) {
-                // We will update the first hit (there should be only one)
-                results.first();
-
                 callout = new Callout(results.getInt("ID"), results.getInt("PatientID"), results.getInt("RespondingAmbulanceID"), results.getString("Event"), results.getTimestamp("Timestamp"), results.getInt("CallLength"), results.getString("Address"), results.getString("ActionTaken"));
             }
             else {
@@ -264,6 +288,35 @@ public class DataLayer implements DataLayerInterface
         }
     }
 
+    @Override
+    public Ambulance getAvailableAmbulance(int hospitalId)
+    {
+        Ambulance ambulance = null;
+        try {
+            Connection dbConnection = openDatabaseConnection();
+            Statement statement = dbConnection.createStatement();
+            // Now create a simple query to get all records from the database
+            String query = "SELECT * FROM ambulances WHERE HospitalID=" + hospitalId + " AND Available =1";
+            ResultSet results = statement.executeQuery(query);
+
+            if (results.next()) {
+                ambulance = new Ambulance(results.getInt("ID"), results.getInt("Available") > 0, results.getInt("HospitalID"), results.getString("ServerAddress"));
+            }
+            else {
+                // No matching records. Display message
+                System.out.println("No available ambulances at hospital with id " + hospitalId + "found.");
+            }
+            statement.close();
+            dbConnection.close();
+        }
+        catch (SQLException sqlException) {
+            System.err.println("Error in SQL Update");
+            System.err.println(sqlException.getMessage());
+            System.exit(-1);
+        }
+
+        return ambulance;
+    }
 
 
 }
