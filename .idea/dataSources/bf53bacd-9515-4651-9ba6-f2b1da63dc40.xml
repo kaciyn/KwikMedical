@@ -921,18 +921,17 @@ SELECT|sys.sys_config:null
       <NotNull>1</NotNull>
       <SequenceIdentity>null</SequenceIdentity>
     </column>
-    <column id="289" parent="284" name="HospitalID">
+    <column id="289" parent="284" name="Available">
       <Position>2</Position>
-      <DataType>int|0s</DataType>
-    </column>
-    <column id="290" parent="284" name="Available">
-      <Position>3</Position>
-      <DataType>tinyint(1) unsigned zerofill|0s</DataType>
+      <DataType>tinyint(1)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <index id="291" parent="284" name="ID_UNIQUE">
-      <ColNames>ID</ColNames>
-      <Unique>1</Unique>
+    <column id="290" parent="284" name="HospitalID">
+      <Position>3</Position>
+      <DataType>int|0s</DataType>
+    </column>
+    <index id="291" parent="284" name="HospitalID">
+      <ColNames>HospitalID</ColNames>
       <Type>btree</Type>
     </index>
     <key id="292" parent="284" name="PRIMARY">
@@ -940,111 +939,121 @@ SELECT|sys.sys_config:null
       <ColNames>ID</ColNames>
       <Primary>1</Primary>
     </key>
-    <key id="293" parent="284" name="ID_UNIQUE">
-      <ColNames>ID</ColNames>
-      <UnderlyingIndexName>ID_UNIQUE</UnderlyingIndexName>
-    </key>
+    <foreign-key id="293" parent="284" name="ambulances_ibfk_1">
+      <ColNames>HospitalID</ColNames>
+      <RefTableName>hospitals</RefTableName>
+      <RefColNames>ID</RefColNames>
+    </foreign-key>
     <column id="294" parent="285" name="ID">
       <Position>1</Position>
       <DataType>int|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>null</SequenceIdentity>
     </column>
-    <column id="295" parent="285" name="PatientID">
+    <column id="295" parent="285" name="RespondingAmbulanceID">
       <Position>2</Position>
       <DataType>int|0s</DataType>
     </column>
-    <column id="296" parent="285" name="RespondingAmbulanceID">
+    <column id="296" parent="285" name="Incident">
       <Position>3</Position>
-      <DataType>int|0s</DataType>
-    </column>
-    <column id="297" parent="285" name="Event">
-      <Position>4</Position>
       <DataType>varchar(1000)|0s</DataType>
     </column>
-    <column id="298" parent="285" name="Timestamp">
-      <Position>5</Position>
+    <column id="297" parent="285" name="DateTime">
+      <Position>4</Position>
       <DataType>datetime|0s</DataType>
     </column>
-    <column id="299" parent="285" name="CallLength">
-      <Position>6</Position>
+    <column id="298" parent="285" name="CallLength">
+      <Position>5</Position>
       <DataType>int|0s</DataType>
     </column>
-    <column id="300" parent="285" name="Address">
-      <Position>7</Position>
+    <column id="299" parent="285" name="Address">
+      <Position>6</Position>
       <DataType>varchar(45)|0s</DataType>
     </column>
-    <column id="301" parent="285" name="ActionTaken">
-      <Position>8</Position>
+    <column id="300" parent="285" name="ActionTaken">
+      <Position>7</Position>
       <DataType>varchar(1000)|0s</DataType>
+    </column>
+    <column id="301" parent="285" name="PatientID">
+      <Position>8</Position>
+      <DataType>int|0s</DataType>
     </column>
     <index id="302" parent="285" name="ID_UNIQUE">
       <ColNames>ID</ColNames>
       <Unique>1</Unique>
       <Type>btree</Type>
     </index>
-    <key id="303" parent="285" name="PRIMARY">
+    <index id="303" parent="285" name="PatientID">
+      <ColNames>PatientID</ColNames>
+      <Type>btree</Type>
+    </index>
+    <key id="304" parent="285" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>ID</ColNames>
       <Primary>1</Primary>
     </key>
-    <key id="304" parent="285" name="ID_UNIQUE">
+    <key id="305" parent="285" name="ID_UNIQUE">
       <ColNames>ID</ColNames>
       <UnderlyingIndexName>ID_UNIQUE</UnderlyingIndexName>
     </key>
-    <column id="305" parent="286" name="ID">
+    <foreign-key id="306" parent="285" name="callouts_ibfk_1">
+      <ColNames>PatientID</ColNames>
+      <RefTableName>patients</RefTableName>
+      <RefColNames>RegistrationNumber</RefColNames>
+    </foreign-key>
+    <column id="307" parent="286" name="ID">
       <Position>1</Position>
       <DataType>int|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>null</SequenceIdentity>
     </column>
-    <column id="306" parent="286" name="Name">
+    <column id="308" parent="286" name="Name">
       <Position>2</Position>
       <DataType>varchar(45)|0s</DataType>
     </column>
-    <index id="307" parent="286" name="ID_UNIQUE">
+    <index id="309" parent="286" name="ID_UNIQUE">
       <ColNames>ID</ColNames>
       <Unique>1</Unique>
       <Type>btree</Type>
     </index>
-    <key id="308" parent="286" name="PRIMARY">
+    <key id="310" parent="286" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>ID</ColNames>
       <Primary>1</Primary>
     </key>
-    <key id="309" parent="286" name="ID_UNIQUE">
+    <key id="311" parent="286" name="ID_UNIQUE">
       <ColNames>ID</ColNames>
       <UnderlyingIndexName>ID_UNIQUE</UnderlyingIndexName>
     </key>
-    <column id="310" parent="287" name="RegistrationNumber">
+    <column id="312" parent="287" name="RegistrationNumber">
       <Position>1</Position>
       <DataType>int|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>null</SequenceIdentity>
     </column>
-    <column id="311" parent="287" name="Name">
+    <column id="313" parent="287" name="Name">
       <Position>2</Position>
       <DataType>varchar(45)|0s</DataType>
     </column>
-    <column id="312" parent="287" name="Address">
+    <column id="314" parent="287" name="Address">
       <Position>3</Position>
       <DataType>varchar(100)|0s</DataType>
     </column>
-    <column id="313" parent="287" name="MedicalRecord">
+    <column id="315" parent="287" name="MedicalRecord">
       <Position>4</Position>
       <DataType>varchar(1000)|0s</DataType>
     </column>
-    <index id="314" parent="287" name="RegistrationNumber_UNIQUE">
+    <index id="316" parent="287" name="RegistrationNumber_UNIQUE">
       <ColNames>RegistrationNumber</ColNames>
       <Unique>1</Unique>
       <Type>btree</Type>
     </index>
-    <key id="315" parent="287" name="PRIMARY">
+    <key id="317" parent="287" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>RegistrationNumber</ColNames>
       <Primary>1</Primary>
     </key>
-    <key id="316" parent="287" name="RegistrationNumber_UNIQUE">
+    <key id="318" parent="287" name="RegistrationNumber_UNIQUE">
       <ColNames>RegistrationNumber</ColNames>
       <UnderlyingIndexName>RegistrationNumber_UNIQUE</UnderlyingIndexName>
     </key>

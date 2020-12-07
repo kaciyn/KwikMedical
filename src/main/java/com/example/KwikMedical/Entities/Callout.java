@@ -7,7 +7,8 @@ public class Callout
     private Integer Id;
     private Integer PatientId;
     private Integer RespondingAmbulanceId;
-    private String Event;
+    private String PatientCondition;
+    private String Incident;
     private Timestamp Timestamp;
     private int CallLength;
     private String Address;
@@ -15,33 +16,33 @@ public class Callout
 
 
     //for initial callout request
-    public Callout(int patientId, String event, Timestamp timestamp, int callLength, String address)
+    public Callout(int patientId, String incident, Timestamp timestamp, int callLength, String address, String patientCondition)
     {
         this.PatientId = patientId;
-        this.Event = event;
+        this.Incident = incident;
         this.Timestamp = timestamp;
         this.CallLength = callLength;
+        this.PatientCondition = patientCondition;
         this.Address = address;
 
         //unknown until added to db/received info from ambulance
-        this.Id = null;
-        this.RespondingAmbulanceId = null;
-        this.ActionTaken = null;
+//        this.Id = null;
+//        this.RespondingAmbulanceId = null;
+//        this.ActionTaken = null;
 
     }
 
 
-    public Callout(int id, int patientId, int respondingAmbulanceId, String event, Timestamp timestamp, int callLength, String address, String actionTaken)
+    public Callout(int id, int patientId, int respondingAmbulanceId, String incident, Timestamp timestamp, int callLength, String address, String actionTaken)
     {
         this.Id = id;
         this.PatientId = patientId;
         this.RespondingAmbulanceId = respondingAmbulanceId;
-        this.Event = event;
+        this.Incident = incident;
         this.Timestamp = timestamp;
         this.CallLength = callLength;
         this.Address = address;
         this.ActionTaken = actionTaken;
-
     }
 
     public int getId()
@@ -70,14 +71,14 @@ public class Callout
         RespondingAmbulanceId = respondingAmbulanceId;
     }
 
-    public String getEvent()
+    public String getIncident()
     {
-        return Event;
+        return Incident;
     }
 
-    public void setEvent(String event)
+    public void setIncident(String incident)
     {
-        Event = event;
+        Incident = incident;
     }
 
     public Timestamp getTimestamp()
@@ -118,5 +119,15 @@ public class Callout
     public void setActionTaken(String actionTaken)
     {
         ActionTaken = actionTaken;
+    }
+
+    public String getPatientCondition()
+    {
+        return PatientCondition;
+    }
+
+    public void setPatientCondition(String patientCondition)
+    {
+        PatientCondition = patientCondition;
     }
 }

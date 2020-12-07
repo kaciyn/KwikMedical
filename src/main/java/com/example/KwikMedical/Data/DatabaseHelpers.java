@@ -3,16 +3,20 @@ package com.example.KwikMedical.Data;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.Properties;
 
 public class DatabaseHelpers
 {
-    public static Connection openDatabaseConnection(String database)
+    public static Connection openDatabaseConnection()
     {
-        try {   // Load the driver
-            Class.forName("com.mysql.jdbc.Driver");
+        try {
+
+
+            // Load the driver
+            Class.forName("com.mysql.cj.jdbc.Driver");
             // First we need to establish a connection to the database
             return DriverManager
-                    .getConnection("jdbc:mysql://localhost/" + database + "?user=Java&password=Java");
+                    .getConnection("jdbc:mysql://localhost:3306/mydb", "root", "admin");
         }
         catch (ClassNotFoundException classNotFoundException) {
             System.err.println("Could not load driver");
@@ -26,5 +30,4 @@ public class DatabaseHelpers
         }
         return null;
     }
-
 }
