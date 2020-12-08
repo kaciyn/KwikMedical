@@ -95,9 +95,9 @@ public class HospitalApp
             while (true) {
                 String response = scanner.nextLine();
 
-                if (response.length() != 0) {
+                if (response!=null&&response.length() != 0) {
                     System.out.println("Response: " + response);
-                    if (response.equals("done")) {
+                    if (response.contains("done")) {
                         scanner.close();
                         objectOutputStream.close();
                         break;
