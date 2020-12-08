@@ -33,7 +33,7 @@ public class AmbulanceApp
         try {
             //default ambulance id, would be set on server startup login or similar
             ambulanceID = 1;
-            int port = 8080;
+            int port = 8070;
             ServerSocket server = new ServerSocket(port);
 
             // Accept an incoming client connection on the server socket

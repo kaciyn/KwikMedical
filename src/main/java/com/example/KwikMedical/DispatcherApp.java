@@ -59,7 +59,11 @@ public class DispatcherApp
         catch (IOException ioe) {
             System.err.println("Error in I/O");
             System.err.println(ioe.getMessage());
-            System.exit(-1);
+            ioe.printStackTrace();
+        }
+        catch (Exception exception) {
+            exception.printStackTrace();
+
         }
     }
 }
