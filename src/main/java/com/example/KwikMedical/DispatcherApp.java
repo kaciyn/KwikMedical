@@ -19,7 +19,7 @@ public class DispatcherApp
         var dataLayer = new DataLayer();
         var appLayer = new ApplicationLayer(dataLayer);
 
-        while (true) {
+//        while (true) {
             try {
                 // Loop until programme is exited
 
@@ -87,7 +87,7 @@ public class DispatcherApp
             catch (Exception exception) {
                 exception.printStackTrace();
 
-            }
+//            }
         }
     }
 }

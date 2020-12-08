@@ -22,22 +22,27 @@ public class HospitalApp
         DataLayer dataLayer = new DataLayer();
         ApplicationLayer appLayer = new ApplicationLayer(dataLayer);
 
+        try {  //default hospital id, would be set on server startup login or similar
 
-        while (true) {
-            receiveCallout();
+            int port = 8080;
+            ServerSocket server = new ServerSocket(port);
+            System.out.println("Server started on port " + port);
+
+            while (true) {
+                receiveCallout(server);
+            }
+        }
+        catch (IOException e) {
+            e.printStackTrace();
         }
 
     }
 
-    static void receiveCallout()
+    static void receiveCallout(ServerSocket server) throws IOException
     {
+        int hospitalID = 1;
+
         try {
-            //default hospital id, would be set on server startup login or similar
-            int hospitalID = 1;
-
-            int port = 8080;
-            ServerSocket server = new ServerSocket(port);
-
             // Accept an incoming client connection on the server socket
             Socket socket = server.accept();
 
@@ -50,17 +55,18 @@ public class HospitalApp
             Thread clientHandler = new HospitalClientHandler(socket, inputStream, outputStream, hospitalID);
 
             clientHandler.start();
-
-           
         }
         catch (IOException ioe) {
             System.err.println("Error in I/O");
             System.err.println(ioe.getMessage());
             ioe.printStackTrace();
+            server.close();
+
         }
-        catch (Exception exception){
+        catch (Exception exception) {
             exception.printStackTrace();
-    
+            server.close();
+
         }
     }
 
