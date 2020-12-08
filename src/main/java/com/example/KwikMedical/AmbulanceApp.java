@@ -20,13 +20,12 @@ public class AmbulanceApp
         dataLayer = new DataLayer();
         appLayer = new ApplicationLayer(dataLayer);
 
-        int port = 8080;
-
         try {
+            int port = 8080;
             ServerSocket server = new ServerSocket(port);
-            System.out.println("Ambulance listening for callouts on port: " + port);
+            System.out.println("Server started at address: " + server.getLocalSocketAddress());
 
-            listenForCallouts(server);
+            receiveCallout(server);
         }
         catch (IOException e) {
             e.printStackTrace();
@@ -34,9 +33,10 @@ public class AmbulanceApp
 
     }
 
-    static void listenForCallouts(ServerSocket server)
+    static void receiveCallout(ServerSocket server)
     {
         while (true) {
+
             try {
                 //default ambulance id, would be set on server startup login or similar
                 ambulanceID = 3;
@@ -53,12 +53,27 @@ public class AmbulanceApp
 
                 ObjectInputStream objectInputStream = new ObjectInputStream(inputStream);
 
-                Thread clientHandler = new AmbulanceClientHandlerThread(socket, ambulanceID);
+                Callout callout = (Callout) objectInputStream.readObject();
 
-                clientHandler.start();
+                // Send message
+                outputStream.writeUTF("Received callout info, en route to patient");
 
+                //set ambulance to unavailable
+                appLayer.updateAmbulanceAvailability(ambulanceID, false);
+
+                updateCalloutInfo(callout);
+
+                //set ambulance to available
+                appLayer.updateAmbulanceAvailability(ambulanceID, true);
+
+                outputStream.writeUTF("Callout completed & updated. Closing connection.");
+                outputStream.writeUTF("done");
+
+                // Close sockets.  This will cause the client to exit
+                socket.close();
+                server.close();
             }
-            catch (IOException ioe) {
+            catch (IOException | ClassNotFoundException ioe) {
                 System.err.println("Error in I/O");
                 System.err.println(ioe.getMessage());
                 System.exit(-1);
@@ -66,7 +81,7 @@ public class AmbulanceApp
         }
     }
 
-    public static void updateCalloutInfo(Callout callout)
+    static void updateCalloutInfo(Callout callout)
     {
         try {
             System.out.print("\nUpdate with further information: ");
