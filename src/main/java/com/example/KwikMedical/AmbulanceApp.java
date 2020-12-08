@@ -32,8 +32,8 @@ public class AmbulanceApp
     {
         try {
             //default ambulance id, would be set on server startup login or similar
-            ambulanceID = 1;
-            int port = 8070;
+            ambulanceID = 3;
+            int port = 8080;
             ServerSocket server = new ServerSocket(port);
             
             System.out.println("Server started at address: " + server.getLocalSocketAddress() );
@@ -54,7 +54,6 @@ public class AmbulanceApp
             // Send message
             outputStream.writeUTF("Received callout info, en route to patient");
 
-            var sldkjf=appLayer;
             //set ambulance to unavailable
             appLayer.updateAmbulanceAvailability(ambulanceID,false);
 

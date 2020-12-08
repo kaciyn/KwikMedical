@@ -141,7 +141,7 @@ public class DataLayer implements DataLayerInterface
     {
         try {
             Connection dbConnection = openDatabaseConnection();
-            Statement statement = dbConnection.createStatement();
+            Statement statement = dbConnection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_UPDATABLE);
             // Now create a simple query to get all records from the database
             String query = "SELECT * FROM callouts WHERE ID=" + callout.getId();
 
@@ -149,6 +149,8 @@ public class DataLayer implements DataLayerInterface
 
             if (results.next()) {
 //these should be the only ones updated from the ambulance
+                results.updateInt("RespondingAmbulanceID",callout.getRespondingAmbulanceId());
+                results.updateString("PatientCondition", callout.getPatientCondition());
                 results.updateString("Incident", callout.getIncident());
                 results.updateString("ActionTaken", callout.getActionTaken());
                 results.updateRow();
@@ -263,15 +265,17 @@ public class DataLayer implements DataLayerInterface
     {
         try {
             Connection dbConnection = openDatabaseConnection();
-            Statement statement = dbConnection.createStatement();
+            Statement statement = dbConnection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_UPDATABLE);
             // Now create a simple query to get all records from the database
             String query = "SELECT * FROM ambulances WHERE ID=" + id;
 
             ResultSet results = statement.executeQuery(query);
 
             if (results.next()) {
+                results.first();
 //these should be the only ones updated from the ambulance
-                results.updateInt("Available", availability ? 1 : 0);
+                var available=availability ? 1 : 0;
+                results.updateInt("Available", available);
                 results.updateRow();
             }
             else {
@@ -304,7 +308,7 @@ public class DataLayer implements DataLayerInterface
             }
             else {
                 // No matching records. Display message
-                System.out.println("No available ambulances at hospital with id " + hospitalId + "found.");
+                System.out.println("No available ambulances at hospital with id " + hospitalId + " found.");
             }
             statement.close();
             dbConnection.close();
