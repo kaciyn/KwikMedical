@@ -24,7 +24,7 @@ public class AmbulanceApp
 
         try {
             ServerSocket server = new ServerSocket(port);
-            System.out.println("Server started at address: " + server.getLocalSocketAddress());
+            System.out.println("Ambulance listening for callouts on port: " + port);
 
             listenForCallouts(server);
         }
