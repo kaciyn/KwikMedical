@@ -17,8 +17,8 @@ public class AmbulanceApp
 
     public static void main(String[] args)
     {
-        DataLayer dataLayer = new DataLayer();
-        ApplicationLayer appLayer = new ApplicationLayer(dataLayer);
+         dataLayer = new DataLayer();
+         appLayer = new ApplicationLayer(dataLayer);
 
 
 
@@ -54,6 +54,7 @@ public class AmbulanceApp
             // Send message
             outputStream.writeUTF("Received callout info, en route to patient");
 
+            var sldkjf=appLayer;
             //set ambulance to unavailable
             appLayer.updateAmbulanceAvailability(ambulanceID,false);
 

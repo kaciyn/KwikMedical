@@ -265,7 +265,7 @@ public class DataLayer implements DataLayerInterface
             Connection dbConnection = openDatabaseConnection();
             Statement statement = dbConnection.createStatement();
             // Now create a simple query to get all records from the database
-            String query = "SELECT * FROM callouts WHERE ID=" + id;
+            String query = "SELECT * FROM ambulances WHERE ID=" + id;
 
             ResultSet results = statement.executeQuery(query);
 
