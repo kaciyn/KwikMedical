@@ -17,66 +17,56 @@ public class AmbulanceApp
 
     public static void main(String[] args)
     {
-         dataLayer = new DataLayer();
-         appLayer = new ApplicationLayer(dataLayer);
+        dataLayer = new DataLayer();
+        appLayer = new ApplicationLayer(dataLayer);
 
+        int port = 8080;
 
-
-        while (true) {
-            receiveCallout();
-        }
-
-    }
-
-    static void receiveCallout()
-    {
         try {
-            //default ambulance id, would be set on server startup login or similar
-            ambulanceID = 3;
-            int port = 8080;
             ServerSocket server = new ServerSocket(port);
-            
-            System.out.println("Server started at address: " + server.getLocalSocketAddress() );
+            System.out.println("Server started at address: " + server.getLocalSocketAddress());
 
-            // Accept an incoming client connection on the server socket
-            Socket socket = server.accept();
-
-            // get the input stream from the connected socket
-            InputStream inputStream = socket.getInputStream();
-            // create a DataInputStream so we can read data from it.
-
-            DataOutputStream outputStream = new DataOutputStream(socket.getOutputStream());
-
-            ObjectInputStream objectInputStream = new ObjectInputStream(inputStream);
-
-            Callout callout = (Callout) objectInputStream.readObject();
-
-            // Send message
-            outputStream.writeUTF("Received callout info, en route to patient");
-
-            //set ambulance to unavailable
-            appLayer.updateAmbulanceAvailability(ambulanceID,false);
-
-            updateCalloutInfo(callout);
-
-            //set ambulance to available
-            appLayer.updateAmbulanceAvailability(ambulanceID,true);
-
-            outputStream.writeUTF("Callout completed & updated. Closing connection.");
-            outputStream.writeUTF("done");
-
-            // Close sockets.  This will cause the client to exit
-            socket.close();
-            server.close();
+            listenForCallouts(server);
         }
-        catch (IOException | ClassNotFoundException ioe) {
-            System.err.println("Error in I/O");
-            System.err.println(ioe.getMessage());
-            System.exit(-1);
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    static void listenForCallouts(ServerSocket server)
+    {
+        while (true) {
+            try {
+                //default ambulance id, would be set on server startup login or similar
+                ambulanceID = 3;
+
+
+                // Accept an incoming client connection on the server socket
+                Socket socket = server.accept();
+
+                // get the input stream from the connected socket
+                InputStream inputStream = socket.getInputStream();
+                // create a DataInputStream so we can read data from it.
+
+                DataOutputStream outputStream = new DataOutputStream(socket.getOutputStream());
+
+                ObjectInputStream objectInputStream = new ObjectInputStream(inputStream);
+
+                Thread clientHandler = new HospitalClientHandlerThread(socket, ambulanceID);
+
+                clientHandler.start();
+
+            }
+            catch (IOException ioe) {
+                System.err.println("Error in I/O");
+                System.err.println(ioe.getMessage());
+                System.exit(-1);
+            }
         }
     }
 
-    private static void updateCalloutInfo(Callout callout)
+    public static void updateCalloutInfo(Callout callout)
     {
         try {
             System.out.print("\nUpdate with further information: ");
@@ -93,7 +83,7 @@ public class AmbulanceApp
             String actionTaken = input.readLine();
 
 
-            appLayer.updateCalloutFromAmbulance(callout,ambulanceID,patientCondition,incident,actionTaken);
+            appLayer.updateCalloutFromAmbulance(callout, ambulanceID, patientCondition, incident, actionTaken);
 
         }
         catch (IOException e) {

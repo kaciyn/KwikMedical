@@ -1,9 +1,7 @@
 package com.example.KwikMedical;
 
 import com.example.KwikMedical.Application.ApplicationLayer;
-import com.example.KwikMedical.Application.ApplicationLayerInterface;
 import com.example.KwikMedical.Data.DataLayer;
-import com.example.KwikMedical.Data.DataLayerInterface;
 import com.example.KwikMedical.Models.Ambulance;
 import com.example.KwikMedical.Models.Callout;
 
@@ -11,7 +9,6 @@ import java.io.*;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.net.UnknownHostException;
 import java.util.Scanner;
 
 public class HospitalApp
@@ -19,21 +16,22 @@ public class HospitalApp
     static BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
     static DataLayer dataLayer;
     static ApplicationLayer appLayer;
+    static int hospitalID;
 
     public static void main(String[] args)
     {
-        DataLayerInterface dataLayer = new DataLayer();
-        ApplicationLayerInterface appLayer = new ApplicationLayer(dataLayer);
+        dataLayer = new DataLayer();
+        appLayer = new ApplicationLayer(dataLayer);
 
-        try {  //default hospital id, would be set on server startup login or similar
+        //default hospital id, would be set on server startup login or similar
+        int hospitalID = 2;
 
-            int port = 8080;
+        int port = 8080;
+        try {
             ServerSocket server = new ServerSocket(port);
-            System.out.println("Server started at address: " + server.getLocalSocketAddress() );
+            System.out.println("Hospital " + hospitalID + " listening for callouts  on port: " + port);
 
-            while (true) {
-                receiveCallout(server);
-            }
+            listenForCallouts(server);
         }
         catch (IOException e) {
             e.printStackTrace();
@@ -41,33 +39,35 @@ public class HospitalApp
 
     }
 
-    static void receiveCallout(ServerSocket server) throws IOException
+    public static void listenForCallouts(ServerSocket server)
     {
-        int hospitalID = 2;
+        while (true) {
+            try {
 
+                Socket socket = server.accept();
+
+                Thread clientHandler = new HospitalClientHandlerThread(socket,hospitalID);
+
+                clientHandler.start();
+            }
+            catch (IOException ioe) {
+                System.err.println("Error in I/O");
+                System.err.println(ioe.getMessage());
+                ioe.printStackTrace();
+
+                break;
+            }
+            catch (Exception exception) {
+                exception.printStackTrace();
+                break;
+
+            }
+        }
         try {
-
-            Socket socket = server.accept();
-
-            InputStream inputStream = socket.getInputStream();
-
-            DataOutputStream outputStream = new DataOutputStream(socket.getOutputStream());
-
-            Thread clientHandler = new HospitalClientHandler(socket, inputStream, outputStream, hospitalID);
-
-            clientHandler.start();
-        }
-        catch (IOException ioe) {
-            System.err.println("Error in I/O");
-            System.err.println(ioe.getMessage());
-            ioe.printStackTrace();
             server.close();
-
         }
-        catch (Exception exception) {
-            exception.printStackTrace();
-            server.close();
-
+        catch (IOException e) {
+            e.printStackTrace();
         }
     }
 

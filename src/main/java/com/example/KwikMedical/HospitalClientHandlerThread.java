@@ -11,18 +11,16 @@ import java.util.Scanner;
 import static com.example.KwikMedical.HospitalApp.sendAmbulance;
 import static com.example.KwikMedical.HospitalApp.appLayer;
 
-public class HospitalClientHandler extends Thread
+public class HospitalClientHandlerThread extends Thread
 {
     private final Socket socket;
-    private final InputStream inputStream;
-    private final DataOutputStream outputStream;
+
     private final int hospitalID;
 
-    public HospitalClientHandler(Socket socket, InputStream inputStream, DataOutputStream outputStream, int hospitalId)
+    public HospitalClientHandlerThread(Socket socket, int hospitalId)
     {
         this.socket = socket;
-        this.inputStream = inputStream;
-        this.outputStream = outputStream;
+
         this.hospitalID = hospitalId;
     }
 
@@ -33,6 +31,11 @@ public class HospitalClientHandler extends Thread
         var appLayer = new ApplicationLayer(dataLayer);
 
         try {
+
+            InputStream inputStream = socket.getInputStream();
+
+            DataOutputStream outputStream = new DataOutputStream(socket.getOutputStream());
+
             ObjectInputStream objectInputStream = new ObjectInputStream(inputStream);
 
             var callout = (Callout) objectInputStream.readObject();
@@ -53,8 +56,8 @@ public class HospitalClientHandler extends Thread
             outputStream.writeUTF("done");
 
 
+            //confirmation message from ambulance
             var scanner = new Scanner(socket.getInputStream());
-
             while (true) {
                 String response = scanner.nextLine();
 
@@ -69,9 +72,17 @@ public class HospitalClientHandler extends Thread
 
             System.out.println("Client " + this.socket + " disconnecting...");
             System.out.println("Closing  connection.");
-            this.socket.close();
-            System.out.println("Connection closed");
-            return;
+            try {
+                // closing resources
+                inputStream.close();
+                outputStream.close();
+                this.socket.close();
+                System.out.println("Connection closed");
+
+            }
+            catch (IOException e) {
+                e.printStackTrace();
+            }
         }
 
 
@@ -80,15 +91,7 @@ public class HospitalClientHandler extends Thread
         }
 
 
-        try {
-            // closing resources
-            this.inputStream.close();
-            this.outputStream.close();
 
-        }
-        catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
 }
