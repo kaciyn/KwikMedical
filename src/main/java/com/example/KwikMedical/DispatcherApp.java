@@ -51,6 +51,8 @@ public class DispatcherApp
                 System.out.println("Sending callout request");
                 objectOutputStream.writeObject(callout);
 
+                //TODO add wait for confirmation before closing
+
                 System.out.println("Closing socket.");
                 socket.close();
             }

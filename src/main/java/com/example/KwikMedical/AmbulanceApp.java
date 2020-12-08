@@ -57,10 +57,11 @@ public class AmbulanceApp
 
             updateCalloutInfo(callout);
 
-            outputStream.writeUTF("Callout completed & updated. Closing connection.");
 
             //set ambulance to available
             appLayer.updateAmbulanceAvailability(ambulanceID,true);
+
+            outputStream.writeUTF("Callout completed & updated. Closing connection.");
 
             // Close sockets.  This will cause the client to exit
             socket.close();

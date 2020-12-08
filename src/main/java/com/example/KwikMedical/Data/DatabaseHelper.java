@@ -14,9 +14,15 @@ public class DatabaseHelper
 
             // Load the driver
             Class.forName("com.mysql.cj.jdbc.Driver");
+            var localDatabaseUri="jdbc:mysql://localhost:3306/mydb";
+            var remoteDatabaseUri="jdbc:mysql://freedb.tech:3306/mydb";
+
+            var user="freedbtech_kaci";
+            var password="password";
+
             // First we need to establish a connection to the database
             return DriverManager
-                    .getConnection("jdbc:mysql://localhost:3306/mydb", "root", "admin");
+                    .getConnection(remoteDatabaseUri, user, password);
         }
         catch (ClassNotFoundException classNotFoundException) {
             System.err.println("Could not load driver");

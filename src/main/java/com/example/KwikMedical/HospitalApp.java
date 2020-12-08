@@ -77,6 +77,8 @@ public class HospitalApp
             System.out.println("Sending information to ambulance");
             objectOutputStream.writeObject(callout);
 
+            //TODO add wait for confirmation before closing
+
             System.out.println("Closing socket.");
             socket.close();
         }
