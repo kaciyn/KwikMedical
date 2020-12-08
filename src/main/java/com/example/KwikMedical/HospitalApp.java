@@ -6,6 +6,7 @@ import com.example.KwikMedical.Models.Ambulance;
 import com.example.KwikMedical.Models.Callout;
 
 import java.io.*;
+import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
@@ -68,8 +69,12 @@ public class HospitalApp
     {
         try {
             int port = 8070;
+            var ambulanceServerAddress = ambulance.getServerAddress();
 
-            Socket socket = new Socket(ambulance.getServerAddress(), port);
+            Socket socket = new Socket();
+            var socketAddress = new InetSocketAddress(ambulanceServerAddress, port);
+
+            socket.connect(socketAddress, 100000);
 
             OutputStream outputStream = socket.getOutputStream();
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(outputStream);

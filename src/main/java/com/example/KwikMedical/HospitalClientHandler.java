@@ -20,7 +20,6 @@ public class HospitalClientHandler extends Thread
         this.socket = socket;
         this.inputStream = inputStream;
         this.outputStream = outputStream;
-
         this.hospitalID = hospitalId;
     }
 
