@@ -9,6 +9,7 @@ import java.net.ConnectException;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
+import java.util.Objects;
 import java.util.Scanner;
 
 public class DispatcherApp
@@ -71,11 +72,11 @@ public class DispatcherApp
                 while (true) {
                     if (response.length() != 0) {
                         System.out.println("Response: " + response);
-                        if (response.equals("no ambulances available")) {
+                        if (Objects.equals(response, "no ambulances available")) {
                             System.out.println("Trying to find different hospital.");
                             break;
                         }
-                        else if(response.equals("no ambulances available")){
+                        else if(Objects.equals(response, "done")){
                             System.out.println("Request completed.");
                             completed=true;
                             break;
@@ -104,7 +105,6 @@ public class DispatcherApp
             catch (Exception exception) {
                 exception.printStackTrace();
 
-//            }
             }
         }
     }

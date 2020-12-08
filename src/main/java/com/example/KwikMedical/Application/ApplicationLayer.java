@@ -69,7 +69,7 @@ public class ApplicationLayer implements ApplicationLayerInterface
         callout.setPatientCondition(callout.getPatientCondition() + "\nAmbulance Update: " + patientCondition);
         callout.setIncident(callout.getPatientCondition() + "\nAmbulance Update: " + incident);
 
-        dataLayer.updateCallout(callout);
+        dataLayer.addCallout(callout);
     }
 
     @Override

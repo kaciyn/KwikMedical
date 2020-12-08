@@ -74,45 +74,46 @@ public class HospitalApp
 
     static void sendAmbulance(Ambulance ambulance, Callout callout)
     {
-        try {
-            int port = 8080;
-            var ambulanceServerAddress = ambulance.getServerAddress();
+        var done = false;
+        while (!done) {
+            try {
+                int port = 8080;
+                var ambulanceServerAddress = ambulance.getServerAddress();
 
-            Socket socket = new Socket();
-            var socketAddress = new InetSocketAddress(ambulanceServerAddress, port);
+                Socket socket = new Socket();
+                var socketAddress = new InetSocketAddress(ambulanceServerAddress, port);
 
-            socket.connect(socketAddress, 60000);
+                socket.connect(socketAddress, 30000);
 
-            OutputStream outputStream = socket.getOutputStream();
-            ObjectOutputStream objectOutputStream = new ObjectOutputStream(outputStream);
+                OutputStream outputStream = socket.getOutputStream();
+                ObjectOutputStream objectOutputStream = new ObjectOutputStream(outputStream);
 
-            System.out.println("Sending information to ambulance");
-            objectOutputStream.writeObject(callout);
+                System.out.println("Sending information to ambulance");
+                objectOutputStream.writeObject(callout);
 
-            var scanner = new Scanner(socket.getInputStream());
+                var scanner = new Scanner(socket.getInputStream());
 
 
-            while (true) {
-                String response = scanner.nextLine();
+                while (true) {
+                    String response = scanner.nextLine();
 
-                if (response!=null&&response.length() != 0) {
-                    System.out.println("Response: " + response);
-                    if (response.contains("done")) {
-                        scanner.close();
-                        objectOutputStream.close();
-                        break;
+                    if (response.length() != 0) {
+                        System.out.println("Response: " + response);
+                        if (response.equals("done")) {
+                            done = true;
+                            scanner.close();
+                            objectOutputStream.close();
+                            break;
+                        }
                     }
                 }
-            }
 
-            System.out.println("Closing socket.");
-            socket.close();
-        }
-        catch (UnknownHostException e) {
-            e.printStackTrace();
-        }
-        catch (IOException e) {
-            e.printStackTrace();
+                System.out.println("Closing socket.");
+                socket.close();
+            }
+            catch (IOException e) {
+                e.printStackTrace();
+            }
         }
 
 

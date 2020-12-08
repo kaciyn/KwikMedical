@@ -32,66 +32,64 @@ public class HospitalClientHandler extends Thread
         var dataLayer = new DataLayer();
         var appLayer = new ApplicationLayer(dataLayer);
 
-        while (true) {
-            try {
-                ObjectInputStream objectInputStream = new ObjectInputStream(inputStream);
+        try {
+            ObjectInputStream objectInputStream = new ObjectInputStream(inputStream);
 
-                var callout = (Callout) objectInputStream.readObject();
+            var callout = (Callout) objectInputStream.readObject();
 
-                outputStream.writeUTF("Received callout request, looking for free ambulance");
+            outputStream.writeUTF("Received callout request, looking for free ambulance");
 
-                var ambulance = appLayer.getAvailableAmbulance(hospitalID);
+            var ambulance = appLayer.getAvailableAmbulance(hospitalID);
 
-                if (ambulance!=null) {
-                    sendAmbulance(ambulance, callout);
-                }
-                else {
-                    outputStream.writeUTF("no ambulances free");
-                    break;
-                }
-                
-                outputStream.writeUTF("Ambulance dispatched.");
-                outputStream.writeUTF("done");
+            if (ambulance != null) {
+                sendAmbulance(ambulance, callout);
+            }
+            else {
+                outputStream.writeUTF("no ambulances free");
+                return;
+            }
+
+            outputStream.writeUTF("Ambulance dispatched.");
+            outputStream.writeUTF("done");
 
 
-                var scanner = new Scanner(socket.getInputStream());
+            var scanner = new Scanner(socket.getInputStream());
 
-                while (true) {
-                    String response = scanner.nextLine();
-    
-                    if (response!=null&&response.length() != 0) {
-                        System.out.println("Response: " + response);
-                        if (response.contains("done")) {
-                            scanner.close();
-                            break;
-                        }
+            while (true) {
+                String response = scanner.nextLine();
+
+                if (response.length() != 0) {
+                    System.out.println("Response: " + response);
+                    if (response.equals("done")) {
+                        scanner.close();
+                        break;
                     }
                 }
-
-                System.out.println("Client " + this.socket + " disconnecting...");
-                System.out.println("Closing  connection.");
-                this.socket.close();
-                System.out.println("Connection closed");
-                break;
-
             }
 
+            System.out.println("Client " + this.socket + " disconnecting...");
+            System.out.println("Closing  connection.");
+            this.socket.close();
+            System.out.println("Connection closed");
+            return;
+        }
 
-            catch (IOException | ClassNotFoundException e) {
-                e.printStackTrace();
-            }
+
+        catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
 
 
-            try {
-                // closing resources
-                this.inputStream.close();
-                this.outputStream.close();
+        try {
+            // closing resources
+            this.inputStream.close();
+            this.outputStream.close();
 
-            }
-            catch (IOException e) {
-                e.printStackTrace();
-            }
+        }
+        catch (IOException e) {
+            e.printStackTrace();
         }
     }
+
 }
 
