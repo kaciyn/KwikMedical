@@ -34,23 +34,23 @@ public class HospitalClientHandler extends Thread
                 var callout = (Callout) objectInputStream.readObject();
 
                 // Send message
-                outputStream.writeUTF("Received callout request, looking for free ambulance");
+//                outputStream.writeUTF("Received callout request, looking for free ambulance");
 
                 var ambulance = appLayer.getAvailableAmbulance(hospitalID);
 
                 sendAmbulance(ambulance,callout);
 
-                outputStream.writeUTF("Ambulance despatched. Type x to terminate connection.");
+//                outputStream.writeUTF("Ambulance despatched. Type x to terminate connection.");
 
-                response = objectInputStream.readUTF();
+//                response = objectInputStream.readUTF();
 
-                if (response.equals("x")) {
+//                if (response.equals("x")) {
                     System.out.println("Client " + this.socket + " disconnecting...");
                     System.out.println("Closing  connection.");
                     this.socket.close();
                     System.out.println("Connection closed");
                     break;
-                }
+//                }
 
 
             }
