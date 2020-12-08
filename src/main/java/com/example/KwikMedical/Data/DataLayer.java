@@ -90,8 +90,8 @@ public class DataLayer implements DataLayerInterface
             Connection dbConnection = openDatabaseConnection();
             Statement statement = dbConnection.createStatement();
 
-            String insert = "INSERT INTO callouts (PatientID,RespondingAmbulanceID, Incident, Timestamp,CallLength,Address,ActionTaken) " +
-                    "VALUES ('" + callout.getPatientId() + "', '" + callout.getRespondingAmbulanceId() + "', '" + callout.getIncident() + "', '" + callout.getTimestamp() + "', '" + callout.getCallLength() + "', '" + callout.getAddress() + "', '" + callout.getActionTaken() + "')";
+            String insert = "INSERT INTO callouts (PatientID,RespondingAmbulanceID, Incident,PatientCondition, Timestamp,CallLength,Address,ActionTaken) " +
+                    "VALUES ('" + callout.getPatientId() + "', '" + callout.getRespondingAmbulanceId() + "', '" + callout.getIncident() + "', '" + callout.getPatientCondition() + "', '"+ callout.getTimestamp() + "', '" + callout.getCallLength() + "', '" + callout.getAddress() + "', '" + callout.getActionTaken() + "')";
 
             statement.executeUpdate(insert);
             statement.close();
