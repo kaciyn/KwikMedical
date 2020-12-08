@@ -59,7 +59,6 @@ public class AmbulanceApp
 
             updateCalloutInfo(callout);
 
-
             //set ambulance to available
             appLayer.updateAmbulanceAvailability(ambulanceID,true);
 
