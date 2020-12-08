@@ -50,14 +50,16 @@ public class HospitalApp
 
             clientHandler.start();
 
-            // Close sockets.  This will cause the client to exit
-            socket.close();
-            server.close();
+           
         }
         catch (IOException ioe) {
             System.err.println("Error in I/O");
             System.err.println(ioe.getMessage());
-            System.exit(-1);
+            ioe.printStackTrace();
+        }
+        catch (Exception exception){
+            exception.printStackTrace();
+    
         }
     }
 
