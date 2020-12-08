@@ -75,13 +75,13 @@ public class HospitalApp
     static void sendAmbulance(Ambulance ambulance, Callout callout)
     {
         try {
-            int port = 8070;
+            int port = 8080;
             var ambulanceServerAddress = ambulance.getServerAddress();
 
             Socket socket = new Socket();
             var socketAddress = new InetSocketAddress(ambulanceServerAddress, port);
 
-            socket.connect(socketAddress, 100000);
+            socket.connect(socketAddress, 10000);
 
             OutputStream outputStream = socket.getOutputStream();
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(outputStream);

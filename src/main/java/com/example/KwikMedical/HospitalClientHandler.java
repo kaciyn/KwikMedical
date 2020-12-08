@@ -42,8 +42,14 @@ public class HospitalClientHandler extends Thread
 
                 var ambulance = appLayer.getAvailableAmbulance(hospitalID);
 
-                sendAmbulance(ambulance, callout);
-
+                if (ambulance!=null) {
+                    sendAmbulance(ambulance, callout);
+                }
+                else {
+                    outputStream.writeUTF("no ambulances free");
+                    break;
+                }
+                
                 outputStream.writeUTF("Ambulance dispatched.");
                 outputStream.writeUTF("done");
 
