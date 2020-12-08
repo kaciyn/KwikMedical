@@ -26,6 +26,7 @@ public class AmbulanceApp
             System.out.println("Server started at address: " + server.getLocalSocketAddress());
 
             receiveCallout(server);
+            server.close();
         }
         catch (IOException e) {
             e.printStackTrace();
@@ -71,7 +72,6 @@ public class AmbulanceApp
 
                 // Close sockets.  This will cause the client to exit
                 socket.close();
-                server.close();
             }
             catch (IOException | ClassNotFoundException ioe) {
                 System.err.println("Error in I/O");
