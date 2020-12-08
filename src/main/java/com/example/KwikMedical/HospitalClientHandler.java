@@ -1,5 +1,6 @@
 package com.example.KwikMedical;
 
+import com.example.KwikMedical.Application.ApplicationLayer;
 import com.example.KwikMedical.Models.Callout;
 
 import java.io.*;
@@ -10,13 +11,15 @@ import static com.example.KwikMedical.HospitalApp.appLayer;
 
 public class HospitalClientHandler extends Thread
 {
+    private ApplicationLayer applicationLayer;
     private final Socket socket;
     private final InputStream inputStream;
     private final DataOutputStream outputStream;
     private final int hospitalID;
 
-    public HospitalClientHandler(Socket socket, InputStream inputStream, DataOutputStream outputStream, int hospitalId)
+    public HospitalClientHandler(ApplicationLayer appLayer,Socket socket, InputStream inputStream, DataOutputStream outputStream, int hospitalId)
     {
+        this.applicationLayer = appLayer;
         this.socket = socket;
         this.inputStream = inputStream;
         this.outputStream = outputStream;

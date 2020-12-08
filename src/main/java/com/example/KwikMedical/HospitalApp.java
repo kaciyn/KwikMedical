@@ -1,7 +1,9 @@
 package com.example.KwikMedical;
 
 import com.example.KwikMedical.Application.ApplicationLayer;
+import com.example.KwikMedical.Application.ApplicationLayerInterface;
 import com.example.KwikMedical.Data.DataLayer;
+import com.example.KwikMedical.Data.DataLayerInterface;
 import com.example.KwikMedical.Models.Ambulance;
 import com.example.KwikMedical.Models.Callout;
 
@@ -19,8 +21,8 @@ public class HospitalApp
 
     public static void main(String[] args)
     {
-        DataLayer dataLayer = new DataLayer();
-        ApplicationLayer appLayer = new ApplicationLayer(dataLayer);
+        DataLayerInterface dataLayer = new DataLayer();
+        ApplicationLayerInterface appLayer = new ApplicationLayer(dataLayer);
 
         try {  //default hospital id, would be set on server startup login or similar
 
@@ -52,7 +54,7 @@ public class HospitalApp
 
             DataOutputStream outputStream = new DataOutputStream(socket.getOutputStream());
 
-            Thread clientHandler = new HospitalClientHandler(socket, inputStream, outputStream, hospitalID);
+            Thread clientHandler = new HospitalClientHandler(appLayer, socket, inputStream, outputStream, hospitalID);
 
             clientHandler.start();
         }

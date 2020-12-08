@@ -21,7 +21,6 @@ public class DispatcherApp
 
 //        while (true) {
             try {
-                // Loop until programme is exited
 
 //                System.out.print("\nPatient registrationNumber: ");
 //                int registrationNumber = Integer.parseInt(input.readLine());
