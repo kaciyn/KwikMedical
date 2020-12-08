@@ -50,7 +50,7 @@ public class DispatcherApp
             Socket socket = new Socket();
             var socketAddress = new InetSocketAddress(hospitalServerAddress, port);
 
-            socket.connect(socketAddress, 100000);
+            socket.connect(socketAddress, 10000);
 
             var callInformation = appLayer.getCallInformation();
 

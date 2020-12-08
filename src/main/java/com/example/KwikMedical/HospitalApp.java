@@ -43,7 +43,7 @@ public class HospitalApp
 
     static void receiveCallout(ServerSocket server) throws IOException
     {
-        int hospitalID = 1;
+        int hospitalID = 2;
 
         try {
 
