@@ -1,6 +1,8 @@
 package com.example.KwikMedical.Entities;
 
-public class Patient
+import java.io.Serializable;
+
+public class Patient implements Serializable
 {
     // Attributes of Patient object
     private int registrationNumber;

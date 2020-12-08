@@ -1,4 +1,4 @@
-package com.example.KwikMedical.Entities;
+package com.example.KwikMedical.SpringAttemptArchive;
 
 public class PatientID
 {

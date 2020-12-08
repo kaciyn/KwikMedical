@@ -1,7 +1,10 @@
 package com.example.KwikMedical.Entities;
 
 
-public class Hospital {
+import java.io.Serializable;
+
+public class Hospital  implements Serializable
+{
 
   private int id;
   private String name;

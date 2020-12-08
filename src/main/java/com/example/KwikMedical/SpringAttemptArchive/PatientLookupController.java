@@ -1,7 +1,7 @@
 //package com.example.KwikMedical;
 //
 //import com.example.KwikMedical.Entities.Patient;
-//import com.example.KwikMedical.Entities.PatientID;
+//import com.example.KwikMedical.SpringAttemptArchive.PatientID;
 //import org.springframework.stereotype.Controller;
 //import org.springframework.ui.Model;
 //import org.springframework.web.bind.annotation.GetMapping;

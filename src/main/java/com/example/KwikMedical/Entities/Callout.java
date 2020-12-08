@@ -1,8 +1,9 @@
 package com.example.KwikMedical.Entities;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 
-public class Callout
+public class Callout implements Serializable
 {
     private Integer Id;
     private Integer PatientId;
