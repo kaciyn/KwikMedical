@@ -36,7 +36,7 @@ public class AmbulanceApp
             int port = 8070;
             ServerSocket server = new ServerSocket(port);
             
-            System.out.println("Server started at address: " + server.getInetAddress() );
+            System.out.println("Server started at address: " + server.getLocalSocketAddress() );
 
             // Accept an incoming client connection on the server socket
             Socket socket = server.accept();

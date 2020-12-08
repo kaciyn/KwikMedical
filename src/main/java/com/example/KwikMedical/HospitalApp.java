@@ -29,7 +29,7 @@ public class HospitalApp
 
             int port = 8080;
             ServerSocket server = new ServerSocket(port);
-            System.out.println("Server started at address: " + server.getInetAddress() );
+            System.out.println("Server started at address: " + server.getLocalSocketAddress() );
 
             while (true) {
                 receiveCallout(server);
