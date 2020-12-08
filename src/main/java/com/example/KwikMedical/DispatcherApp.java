@@ -76,7 +76,7 @@ public class DispatcherApp
                             System.out.println("Trying to find different hospital.");
                             break;
                         }
-                        else if(Objects.equals(response, "done")){
+                        else if(response.contains("done")){
                             System.out.println("Request completed.");
                             completed=true;
                             break;

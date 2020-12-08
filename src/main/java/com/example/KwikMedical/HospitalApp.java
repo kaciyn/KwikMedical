@@ -24,7 +24,7 @@ public class HospitalApp
         appLayer = new ApplicationLayer(dataLayer);
 
         //default hospital id, would be set on server startup login or similar
-        int hospitalID = 2;
+         hospitalID = 2;
 
         int port = 8080;
         try {

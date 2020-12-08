@@ -63,7 +63,7 @@ public class HospitalClientHandlerThread extends Thread
 
                 if (response.length() != 0) {
                     System.out.println("Response: " + response);
-                    if (response.equals("done")) {
+                    if (response.contains("done")) {
                         scanner.close();
                         break;
                     }
