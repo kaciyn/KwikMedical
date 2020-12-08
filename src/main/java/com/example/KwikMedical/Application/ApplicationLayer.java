@@ -87,7 +87,7 @@ public class ApplicationLayer implements ApplicationLayerInterface
     //currently just returns the first hospital in table, full implementation with location/maps integration would calculate distance to patient
     public Hospital getClosestAvailableHospital(String address)
     {
-        return dataLayer.getHospital(1);
+        return dataLayer.getHospital(2);
     }
 
     @Override
