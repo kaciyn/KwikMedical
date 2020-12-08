@@ -23,12 +23,12 @@ public class HospitalApp
 
 
         while (true) {
-            ReceiveCallout();
+            receiveCallout();
         }
 
     }
 
-    static void ReceiveCallout()
+    static void receiveCallout()
     {
         try {
             //default hospital id, would be set on server startup login or similar
@@ -64,7 +64,7 @@ public class HospitalApp
     }
 
 
-    static void SendAmbulance(Ambulance ambulance, Callout callout)
+    static void sendAmbulance(Ambulance ambulance, Callout callout)
     {
         try {
             int port = 8070;

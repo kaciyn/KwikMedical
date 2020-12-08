@@ -7,7 +7,6 @@ public class Ambulance implements Serializable
 
   private int id;
   private boolean available;
-  private final int hospitalID;
   private int hospitalId;
   private String serverAddress;
 
@@ -16,12 +15,12 @@ public class Ambulance implements Serializable
 
     this.id = id;
     this.available = available;
-    this.hospitalID = hospitalID;
+    this.hospitalId = hospitalID;
     this.serverAddress = serverAddress;
   }
 
 
-  public long getId() {
+  public int getId() {
     return id;
   }
 
@@ -35,7 +34,7 @@ public class Ambulance implements Serializable
   }
 
 
-  public long getHospitalId() {
+  public int getHospitalId() {
     return hospitalId;
   }
 

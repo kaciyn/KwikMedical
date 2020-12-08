@@ -2,7 +2,6 @@ package com.example.KwikMedical;
 
 import com.example.KwikMedical.Application.ApplicationLayer;
 import com.example.KwikMedical.Data.DataLayer;
-import com.example.KwikMedical.Entities.Ambulance;
 import com.example.KwikMedical.Entities.Callout;
 
 import java.io.*;
@@ -24,12 +23,12 @@ public class AmbulanceApp
 
 
         while (true) {
-            ReceiveCallout();
+            receiveCallout();
         }
 
     }
 
-    static void ReceiveCallout()
+    static void receiveCallout()
     {
         try {
             //default ambulance id, would be set on server startup login or similar
@@ -56,7 +55,7 @@ public class AmbulanceApp
             //set ambulance to unavailable
             appLayer.updateAmbulanceAvailability(ambulanceID,false);
 
-            UpdateCalloutInfo(callout);
+            updateCalloutInfo(callout);
 
             outputStream.writeUTF("Callout completed & updated. Closing connection.");
 
@@ -74,7 +73,7 @@ public class AmbulanceApp
         }
     }
 
-    private static void UpdateCalloutInfo(Callout callout)
+    private static void updateCalloutInfo(Callout callout)
     {
         try {
             System.out.print("\nUpdate with further information: ");

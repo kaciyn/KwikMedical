@@ -5,7 +5,7 @@ import com.example.KwikMedical.Entities.Callout;
 import java.io.*;
 import java.net.Socket;
 
-import static com.example.KwikMedical.HospitalApp.SendAmbulance;
+import static com.example.KwikMedical.HospitalApp.sendAmbulance;
 import static com.example.KwikMedical.HospitalApp.appLayer;
 
 public class HospitalClientHandler extends Thread
@@ -15,13 +15,13 @@ public class HospitalClientHandler extends Thread
     private final DataOutputStream outputStream;
     private final int hospitalID;
 
-    public HospitalClientHandler(Socket socket, InputStream inputStream, DataOutputStream outputStream, int hospitalID)
+    public HospitalClientHandler(Socket socket, InputStream inputStream, DataOutputStream outputStream, int hospitalId)
     {
         this.socket = socket;
         this.inputStream = inputStream;
         this.outputStream = outputStream;
 
-        this.hospitalID = hospitalID;
+        this.hospitalID = hospitalId;
     }
 
     @Override
@@ -39,7 +39,7 @@ public class HospitalClientHandler extends Thread
 
                 var ambulance = appLayer.getAvailableAmbulance(hospitalID);
 
-                SendAmbulance(ambulance,callout);
+                sendAmbulance(ambulance,callout);
 
                 outputStream.writeUTF("Ambulance despatched. Type x to terminate connection.");
 

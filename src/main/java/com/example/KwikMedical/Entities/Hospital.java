@@ -19,7 +19,7 @@ public class Hospital  implements Serializable
   }
 
 
-  public long getId() {
+  public int getId() {
     return id;
   }
 
