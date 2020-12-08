@@ -22,6 +22,7 @@ public class AmbulanceApp
         ApplicationLayer appLayer = new ApplicationLayer(dataLayer);
 
 
+
         while (true) {
             ReceiveCallout();
         }
@@ -52,9 +53,15 @@ public class AmbulanceApp
             // Send message
             outputStream.writeUTF("Received callout info, en route to patient");
 
+            //set ambulance to unavailable
+            appLayer.updateAmbulanceAvailability(ambulanceID,false);
+
             UpdateCalloutInfo(callout);
 
             outputStream.writeUTF("Callout completed & updated. Closing connection.");
+
+            //set ambulance to available
+            appLayer.updateAmbulanceAvailability(ambulanceID,true);
 
             // Close sockets.  This will cause the client to exit
             socket.close();

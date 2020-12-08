@@ -28,4 +28,7 @@ public interface ApplicationLayerInterface
 
     public Ambulance getAvailableAmbulance(int hospitalId);
 
+    public void updateAmbulanceAvailability(int id, boolean availability);
+
+
 }
