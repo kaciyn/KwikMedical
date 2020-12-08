@@ -29,7 +29,7 @@ public class HospitalApp
 
             int port = 8080;
             ServerSocket server = new ServerSocket(port);
-            System.out.println("Server started on port " + port);
+            System.out.println("Server started at address: " + server.getInetAddress() );
 
             while (true) {
                 receiveCallout(server);
@@ -81,7 +81,7 @@ public class HospitalApp
             Socket socket = new Socket();
             var socketAddress = new InetSocketAddress(ambulanceServerAddress, port);
 
-            socket.connect(socketAddress, 10000);
+            socket.connect(socketAddress, 60000);
 
             OutputStream outputStream = socket.getOutputStream();
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(outputStream);
