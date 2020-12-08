@@ -13,16 +13,16 @@ public interface ApplicationLayerInterface
 
     public Callout getCallout(String patientId, CallInformation callInformation) throws Exception;
 
-    public void updateCallout(String calloutId);
+//    public void updateCallout(String calloutId);
 
     public void removeCallout(String calloutId);
 
     public Hospital getClosestAvailableHospital(String address);
 //    public void getClosestAvailableAmbulance();//future GPS or coordinate-based integration
-
-    public void sendCalloutRequest();
-
-    public void sendPatientRecord();
+//
+//    public void sendCalloutRequest();
+//
+//    public void sendPatientRecord();
 
     public void updateCalloutFromAmbulance(Callout callout, int ambulanceID, String patientCondition, String incident, String actionTaken);
 

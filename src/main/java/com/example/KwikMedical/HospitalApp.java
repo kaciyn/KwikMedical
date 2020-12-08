@@ -12,6 +12,7 @@ import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.Scanner;
 
 public class HospitalApp
 {
@@ -45,16 +46,14 @@ public class HospitalApp
         int hospitalID = 1;
 
         try {
-            // Accept an incoming client connection on the server socket
+
             Socket socket = server.accept();
 
-            // get the input stream from the connected socket
             InputStream inputStream = socket.getInputStream();
-            // create a DataInputStream so we can read data from it.
 
             DataOutputStream outputStream = new DataOutputStream(socket.getOutputStream());
 
-            Thread clientHandler = new HospitalClientHandler( socket, inputStream, outputStream, hospitalID);
+            Thread clientHandler = new HospitalClientHandler(socket, inputStream, outputStream, hospitalID);
 
             clientHandler.start();
         }
@@ -90,8 +89,17 @@ public class HospitalApp
             System.out.println("Sending information to ambulance");
             objectOutputStream.writeObject(callout);
 
-            //TODO add wait for confirmation before closing
+            Scanner scanner = new Scanner(socket.getInputStream());
 
+            String response = scanner.nextLine();
+
+            var done = false;
+            while (!done) {
+                if (response.length() != 0) {
+                    System.out.println("Response: " + response);
+                    done = true;
+                }
+            }
             System.out.println("Closing socket.");
             socket.close();
         }

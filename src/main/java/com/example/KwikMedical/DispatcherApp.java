@@ -9,6 +9,7 @@ import java.net.ConnectException;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
+import java.util.Scanner;
 
 public class DispatcherApp
 {
@@ -20,71 +21,80 @@ public class DispatcherApp
         var appLayer = new ApplicationLayer(dataLayer);
 
 //        while (true) {
-            try {
+        try {
 
 //                System.out.print("\nPatient registrationNumber: ");
 //                int registrationNumber = Integer.parseInt(input.readLine());
-                int registrationNumber = 1;
+            int registrationNumber = 1;
 
 //                System.out.print("Incident: ");
 //                String incident = input.readLine();
-                String incident = "sdfsdf";
+            String incident = "sdfsdf";
 
 //                System.out.print("Patient condition: ");
 //                String patientCondition = input.readLine();
-                String patientCondition = "sdfsdf";
+            String patientCondition = "sdfsdf";
 
 //                System.out.print("Patient location: ");
 //                String address = input.readLine();
-                String address = "sdfsdf";
+            String address = "sdfsdf";
 
-                var patient = appLayer.getPatient(registrationNumber);
+            var patient = appLayer.getPatient(registrationNumber);
 
-                var hospital = appLayer.getClosestAvailableHospital(address);
+            var hospital = appLayer.getClosestAvailableHospital(address);
 
-                int port = 8080;
+            int port = 8080;
 
-                var hospitalServerAddress = hospital.getServerAddress();
+            var hospitalServerAddress = hospital.getServerAddress();
 
-                Socket socket = new Socket();
-                var socketAddress = new InetSocketAddress(hospitalServerAddress, port);
+            Socket socket = new Socket();
+            var socketAddress = new InetSocketAddress(hospitalServerAddress, port);
 
-                socket.connect(socketAddress, 100000);
+            socket.connect(socketAddress, 100000);
 
-                var callInformation = appLayer.getCallInformation();
+            var callInformation = appLayer.getCallInformation();
 
-                var callout = new Callout(patient.getRegistrationNumber(), incident, callInformation.getTimestamp(), callInformation.getCallLength(), address, patient.getMedicalRecord(), patientCondition);
+            var callout = new Callout(patient.getRegistrationNumber(), incident, callInformation.getTimestamp(), callInformation.getCallLength(), address, patient.getMedicalRecord(), patientCondition);
 
-                OutputStream outputStream = socket.getOutputStream();
-                ObjectOutputStream objectOutputStream = new ObjectOutputStream(outputStream);
+            OutputStream outputStream = socket.getOutputStream();
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(outputStream);
 
-                System.out.println("Sending callout request");
-                objectOutputStream.writeObject(callout);
+            System.out.println("Sending callout request");
+            objectOutputStream.writeObject(callout);
 
-                //TODO add wait for confirmation before closing
+            Scanner scanner = new Scanner(socket.getInputStream());
 
-                System.out.println("Closing socket.");
-                socket.close();
+            String response = scanner.nextLine();
 
-
+            var done = false;
+            while (!done) {
+                if (response.length() != 0) {
+                    System.out.println("Response: " + response);
+                    done = true;
+                }
             }
-            catch (SocketTimeoutException socketTimeoutException) {
-                System.err.println("Socket timeout");
-                System.err.println(socketTimeoutException.getMessage());
-                socketTimeoutException.printStackTrace();
-            }
-            catch (ConnectException connectException) {
-                System.err.println("Connection exception");
-                System.err.println(connectException.getMessage());
-                connectException.printStackTrace();
-            }
-            catch (IOException ioe) {
-                System.err.println("Error in I/O");
-                System.err.println(ioe.getMessage());
-                ioe.printStackTrace();
-            }
-            catch (Exception exception) {
-                exception.printStackTrace();
+            System.out.println("Closing socket.");
+            socket.close();
+
+
+        }
+        catch (SocketTimeoutException socketTimeoutException) {
+            System.err.println("Socket timeout");
+            System.err.println(socketTimeoutException.getMessage());
+            socketTimeoutException.printStackTrace();
+        }
+        catch (ConnectException connectException) {
+            System.err.println("Connection exception");
+            System.err.println(connectException.getMessage());
+            connectException.printStackTrace();
+        }
+        catch (IOException ioe) {
+            System.err.println("Error in I/O");
+            System.err.println(ioe.getMessage());
+            ioe.printStackTrace();
+        }
+        catch (Exception exception) {
+            exception.printStackTrace();
 
 //            }
         }

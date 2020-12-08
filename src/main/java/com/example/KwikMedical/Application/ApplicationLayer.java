@@ -90,25 +90,6 @@ public class ApplicationLayer implements ApplicationLayerInterface
         return dataLayer.getHospital(2);
     }
 
-    @Override
-    public void sendPatientRecord()
-    {
-        //TODO implement
-    }
-
-
-    @Override
-    public void updateCallout(String calloutId)
-    {
-
-    }
-
-
-    @Override
-    public void sendCalloutRequest()
-    {
-
-    }
 
 
 }
