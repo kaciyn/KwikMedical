@@ -53,7 +53,7 @@ public class AmbulanceApp
 
                 ObjectInputStream objectInputStream = new ObjectInputStream(inputStream);
 
-                Thread clientHandler = new HospitalClientHandlerThread(socket, ambulanceID);
+                Thread clientHandler = new AmbulanceClientHandlerThread(socket, ambulanceID);
 
                 clientHandler.start();
 
