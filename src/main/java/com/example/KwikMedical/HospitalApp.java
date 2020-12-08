@@ -89,17 +89,22 @@ public class HospitalApp
             System.out.println("Sending information to ambulance");
             objectOutputStream.writeObject(callout);
 
-            Scanner scanner = new Scanner(socket.getInputStream());
+            var scanner = new Scanner(socket.getInputStream());
 
-            String response = scanner.nextLine();
 
-            var done = false;
-            while (!done) {
+            while (true) {
+                String response = scanner.nextLine();
+
                 if (response.length() != 0) {
                     System.out.println("Response: " + response);
-                    done = true;
+                    if (response.equals("done")) {
+                        scanner.close();
+                        objectOutputStream.close();
+                        break;
+                    }
                 }
             }
+
             System.out.println("Closing socket.");
             socket.close();
         }
@@ -109,5 +114,7 @@ public class HospitalApp
         catch (IOException e) {
             e.printStackTrace();
         }
+
+
     }
 }

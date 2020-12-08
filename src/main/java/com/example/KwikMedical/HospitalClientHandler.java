@@ -6,6 +6,7 @@ import com.example.KwikMedical.Models.Callout;
 
 import java.io.*;
 import java.net.Socket;
+import java.util.Scanner;
 
 import static com.example.KwikMedical.HospitalApp.sendAmbulance;
 import static com.example.KwikMedical.HospitalApp.appLayer;
@@ -31,47 +32,59 @@ public class HospitalClientHandler extends Thread
         var dataLayer = new DataLayer();
         var appLayer = new ApplicationLayer(dataLayer);
 
-        String response;
         while (true) {
             try {
                 ObjectInputStream objectInputStream = new ObjectInputStream(inputStream);
 
                 var callout = (Callout) objectInputStream.readObject();
 
-                // Send message
-//                outputStream.writeUTF("Received callout request, looking for free ambulance");
+                outputStream.writeUTF("Received callout request, looking for free ambulance");
 
                 var ambulance = appLayer.getAvailableAmbulance(hospitalID);
 
-                sendAmbulance(ambulance,callout);
+                sendAmbulance(ambulance, callout);
 
-//                outputStream.writeUTF("Ambulance despatched. Type x to terminate connection.");
+                outputStream.writeUTF("Ambulance dispatched.");
+                outputStream.writeUTF("done");
 
-//                response = objectInputStream.readUTF();
 
-//                if (response.equals("x")) {
-                    System.out.println("Client " + this.socket + " disconnecting...");
-                    System.out.println("Closing  connection.");
-                    this.socket.close();
-                    System.out.println("Connection closed");
-                    break;
-//                }
+                var scanner = new Scanner(socket.getInputStream());
 
+                while (true) {
+                    String response = scanner.nextLine();
+
+                    if (response.length() != 0) {
+                        System.out.println("Response: " + response);
+                        if (response.equals("done")) {
+                            scanner.close();
+                            break;
+                        }
+                    }
+                }
+
+                System.out.println("Client " + this.socket + " disconnecting...");
+                System.out.println("Closing  connection.");
+                this.socket.close();
+                System.out.println("Connection closed");
+                break;
 
             }
+
+
             catch (IOException | ClassNotFoundException e) {
                 e.printStackTrace();
             }
-        }
 
-        try {
-            // closing resources
-            this.inputStream.close();
-            this.outputStream.close();
 
-        }
-        catch (IOException e) {
-            e.printStackTrace();
+            try {
+                // closing resources
+                this.inputStream.close();
+                this.outputStream.close();
+
+            }
+            catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 }
