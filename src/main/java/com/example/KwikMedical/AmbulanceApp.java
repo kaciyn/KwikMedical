@@ -2,7 +2,7 @@ package com.example.KwikMedical;
 
 import com.example.KwikMedical.Application.ApplicationLayer;
 import com.example.KwikMedical.Data.DataLayer;
-import com.example.KwikMedical.Entities.Callout;
+import com.example.KwikMedical.Models.Callout;
 
 import java.io.*;
 import java.net.ServerSocket;

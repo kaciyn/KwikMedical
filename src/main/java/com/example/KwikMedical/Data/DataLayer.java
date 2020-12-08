@@ -1,15 +1,15 @@
 package com.example.KwikMedical.Data;
 
-import com.example.KwikMedical.Entities.Ambulance;
-import com.example.KwikMedical.Entities.Callout;
-import com.example.KwikMedical.Entities.Hospital;
-import com.example.KwikMedical.Entities.Patient;
+import com.example.KwikMedical.Models.Ambulance;
+import com.example.KwikMedical.Models.Callout;
+import com.example.KwikMedical.Models.Hospital;
+import com.example.KwikMedical.Models.Patient;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.example.KwikMedical.Data.DatabaseHelpers.openDatabaseConnection;
+import static com.example.KwikMedical.Data.DatabaseHelper.openDatabaseConnection;
 
 public class DataLayer implements DataLayerInterface
 {

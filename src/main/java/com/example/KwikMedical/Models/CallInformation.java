@@ -1,4 +1,4 @@
-package com.example.KwikMedical.Entities;
+package com.example.KwikMedical.Models;
 
 import java.sql.Timestamp;
 

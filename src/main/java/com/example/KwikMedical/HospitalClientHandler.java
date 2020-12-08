@@ -1,6 +1,6 @@
 package com.example.KwikMedical;
 
-import com.example.KwikMedical.Entities.Callout;
+import com.example.KwikMedical.Models.Callout;
 
 import java.io.*;
 import java.net.Socket;

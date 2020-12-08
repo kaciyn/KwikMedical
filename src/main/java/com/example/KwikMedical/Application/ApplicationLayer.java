@@ -1,7 +1,7 @@
 package com.example.KwikMedical.Application;
 
 import com.example.KwikMedical.Data.DataLayerInterface;
-import com.example.KwikMedical.Entities.*;
+import com.example.KwikMedical.Models.*;
 
 import java.sql.Timestamp;
 

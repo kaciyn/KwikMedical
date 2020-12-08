@@ -1,6 +1,6 @@
 package com.example.KwikMedical.Application;
 
-import com.example.KwikMedical.Entities.*;
+import com.example.KwikMedical.Models.*;
 
 public interface ApplicationLayerInterface
 {
